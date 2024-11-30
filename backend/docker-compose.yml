@@ -1,4 +1,3 @@
-version: '3.8'
 services:
     backend:
         build: .
@@ -6,10 +5,9 @@ services:
             - '3000:3000' # Porta do backend
         volumes:
             - .:/usr/src/app # Mapear código local para o container
-            - /usr/src/app/node_modules # Isolar dependências do container
         command: npm run start:dev # Rodar o servidor no modo desenvolvimento
         environment:
-            MONGO_URI: mongodb://mongodb:27017/inoviaNutri # Variável de ambiente para conexão com o MongoDB
+            MONGO_URI: mongodb://mongodb:27017/ConsultorioNutricionista # Variável de ambiente para conexão com o MongoDB
         depends_on:
             - mongodb
 
