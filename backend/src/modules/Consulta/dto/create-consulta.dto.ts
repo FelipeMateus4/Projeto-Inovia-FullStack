@@ -1,14 +1,44 @@
 import { IsNotEmpty, IsString, IsDate, IsEmail, Matches, IsEnum } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { BodyType } from 'src/modules/dataBase/entities/consulta.entity';
+import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+
+export function ValidateDate(validationOptions?: ValidationOptions) {
+    return (object: object, propertyName: string) => {
+        registerDecorator({
+            name: 'ValidateDate',
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            validator: {
+                validate(value: any): boolean {
+                    if (!(value instanceof Date)) {
+                        return false;
+                    }
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    return value > today;
+                },
+                defaultMessage(args: ValidationArguments): string {
+                    return `${args.property} deve ser maior que ${args.constraints[0] || 'a data de inicio'}`;
+                },
+            },
+        });
+    };
+}
 
 export class CreateConsultaDto {
+    @IsNotEmpty()
+    @IsString()
+    customId: string;
+
     @IsNotEmpty()
     @IsString()
     nameNutri: string;
 
     @IsNotEmpty()
     @IsDate()
+    @ValidateDate({ message: 'A data deve ser no futuro.' })
     @Transform(({ value }) => {
         const [day, month, year] = value.split('/'); // separando os atributos da data
         return new Date(`${year}-${month}-${day}`); // retorando a data no formato esperado pelo mongoose
@@ -17,6 +47,7 @@ export class CreateConsultaDto {
 
     @IsNotEmpty()
     @IsDate()
+    @ValidateDate({ message: 'A data deve ser no futuro.' })
     @Transform(({ value }) => {
         const [day, month, year] = value.split('/');
         return new Date(`${year}-${month}-${day}`);
@@ -25,6 +56,7 @@ export class CreateConsultaDto {
 
     @IsNotEmpty()
     @IsDate()
+    @ValidateDate({ message: 'A data deve ser no futuro.' })
     @Transform(({ value }) => {
         const [day, month, year] = value.split('/');
         return new Date(`${year}-${month}-${day}`);

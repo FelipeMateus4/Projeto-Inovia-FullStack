@@ -11,6 +11,9 @@ export type ConsultaDocument = HydratedDocument<ConsultaEntity>;
 
 @Schema()
 export class ConsultaEntity {
+    @Prop({ required: true, unique: true })
+    customId: string;
+
     @Prop({ required: true })
     nameNutri: string;
 
