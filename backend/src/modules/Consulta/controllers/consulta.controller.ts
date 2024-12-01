@@ -6,7 +6,8 @@ import { RequestConsultaDto } from '../dto/request-consulta.dto';
 
 interface CreateConsultaResponse {
     message: string;
-    data: ConsultaDocument;
+    data?: ConsultaDocument;
+    datavet?: ConsultaDocument[];
 }
 
 @Controller('consultas')
@@ -33,21 +34,46 @@ export class ConsultaController {
     async findAllDatesToNutri(
         @Query('nameNutri') nameNutri: string,
         @Query('date') date: string
-    ): Promise<ConsultaDocument[]> {
+    ): Promise<CreateConsultaResponse> {
         // Converter a data para o formato esperado
         const [day, month, year] = date.split('/');
         const parsedDate = new Date(`${year}-${month}-${day}`);
 
-        return this.consultaService.findAllDatesToNutri(nameNutri, parsedDate);
+        const data = await this.consultaService.findAllDatesToNutri(nameNutri, parsedDate);
+
+        if (!data) {
+            throw { message: 'dia sem consultas' };
+        }
+
+        return {
+            message: 'veja todas ocorrencias de consultas',
+            datavet: data,
+        };
     }
 
     @Patch(':customId')
-    async updateConsulta(@Param('customId') customId: string, @Body() keys: any): Promise<ConsultaDocument> {
-        return this.consultaService.updateConsulta(customId, keys);
+    async updateConsulta(@Param('customId') customId: string, @Body() keys: any): Promise<CreateConsultaResponse> {
+        const data = await this.consultaService.updateConsulta(customId, keys);
+
+        if (!data) {
+            throw { message: 'Consulta não encontrada para ser atualizada!' };
+        }
+        return {
+            message: 'Consulta atualizada com sucesso',
+            data,
+        };
     }
 
     @Delete(':customId')
-    async deleteConsulta(@Param('customId') customId: string): Promise<ConsultaDocument> {
-        return this.consultaService.deleteConsulta(customId);
+    async deleteConsulta(@Param('customId') customId: string): Promise<CreateConsultaResponse> {
+        const data = await this.consultaService.deleteConsulta(customId);
+        if (!data) {
+            throw { message: 'Consulta não encontrada para ser deletada!' };
+        }
+
+        return {
+            message: 'Consulta deletada com sucesso',
+            data,
+        };
     }
 }
