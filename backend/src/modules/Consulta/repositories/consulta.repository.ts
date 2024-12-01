@@ -22,4 +22,17 @@ export class consultaRepository {
     async deleteConsulta(id: string): Promise<ConsultaDocument> {
         return await this.consultaModel.findByIdAndDelete(id);
     }
+    async hasTimeConflict(nameNutri: string, startTime: Date, endTime: Date): Promise<boolean> {
+        const conflict = await this.consultaModel.findOne({
+            nameNutri,
+            $or: [
+                // Horário de início ou fim dentro de uma consulta existente
+                { startTime: { $lt: endTime, $gte: startTime } },
+                { endTime: { $gt: startTime, $lte: endTime } },
+                // Intervalo informado cobre completamente a consulta existente
+                { startTime: { $lte: startTime }, endTime: { $gte: endTime } },
+            ],
+        });
+        return !!conflict; // as !! convertem o valor truthy para true e falsy para false
+    }
 }

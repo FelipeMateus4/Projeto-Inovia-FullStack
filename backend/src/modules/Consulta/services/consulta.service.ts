@@ -8,6 +8,15 @@ export class ConsultaService {
     constructor(private readonly consultaRepository: consultaRepository) {}
 
     async createConsulta(createConsultaDto: CreateConsultaDto): Promise<ConsultaDocument> {
+        const validator = await this.consultaRepository.hasTimeConflict(
+            createConsultaDto.nameNutri,
+            createConsultaDto.startTime,
+            createConsultaDto.endTime
+        );
+        if (validator) {
+            throw { message: 'Existe um conflito de horário, por favor verifique os horarios disponiveis' };
+        }
+
         return await this.consultaRepository.createConsulta(createConsultaDto);
     }
 
