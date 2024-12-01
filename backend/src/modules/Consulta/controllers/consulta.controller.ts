@@ -2,7 +2,6 @@ import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestj
 import { ConsultaService } from '../services/consulta.service';
 import { CreateConsultaDto } from '../dto/create-consulta.dto';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
-import { RequestConsultaDto } from '../dto/request-consulta.dto';
 
 interface CreateConsultaResponse {
     message: string;
@@ -15,21 +14,14 @@ export class ConsultaController {
     constructor(private readonly consultaService: ConsultaService) {}
 
     @Post()
-    async create(@Body() requestConsultaDto: RequestConsultaDto): Promise<CreateConsultaResponse> {
-        const dataHora = requestConsultaDto.date;
-        const dataFormatada = dataHora.toISOString().replace(/[-:.TZ]/g, ''); // Removendo os caracteres indesejados
-        const uniqueNumber = Date.now(); // Obtém o timestamp atual
-        const idConsulta = `CONSULTA-${dataFormatada}-${uniqueNumber}`;
-        const createConsultaDto: CreateConsultaDto = {
-            customId: idConsulta,
-            ...requestConsultaDto,
-        };
+    async create(@Body() createConsultaDto: CreateConsultaDto): Promise<CreateConsultaResponse> {
         const data = await this.consultaService.createConsulta(createConsultaDto);
         return {
             message: 'Consulta criada com sucesso!',
             data,
         };
     }
+
     @Get()
     async findAllDatesToNutri(
         @Query('nameNutri') nameNutri: string,
@@ -51,9 +43,9 @@ export class ConsultaController {
         };
     }
 
-    @Patch(':customId')
-    async updateConsulta(@Param('customId') customId: string, @Body() keys: any): Promise<CreateConsultaResponse> {
-        const data = await this.consultaService.updateConsulta(customId, keys);
+    @Patch(':id')
+    async updateConsulta(@Param('id') id: string, @Body() keys: any): Promise<CreateConsultaResponse> {
+        const data = await this.consultaService.updateConsulta(id, keys);
 
         if (!data) {
             throw { message: 'Consulta não encontrada para ser atualizada!' };
@@ -64,9 +56,10 @@ export class ConsultaController {
         };
     }
 
-    @Delete(':customId')
-    async deleteConsulta(@Param('customId') customId: string): Promise<CreateConsultaResponse> {
-        const data = await this.consultaService.deleteConsulta(customId);
+    @Delete(':id')
+    async deleteConsulta(@Param('id') id: string): Promise<CreateConsultaResponse> {
+        const data = await this.consultaService.deleteConsulta(id);
+
         if (!data) {
             throw { message: 'Consulta não encontrada para ser deletada!' };
         }

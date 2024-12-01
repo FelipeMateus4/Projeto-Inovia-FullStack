@@ -16,10 +16,10 @@ export class consultaRepository {
         return await this.consultaModel.find({ nameNutri: name, date: date });
     }
 
-    async updateConsulta(customId: string, keys: any): Promise<ConsultaDocument> {
-        return await this.consultaModel.findOneAndUpdate({ customId }, { $set: keys }, { new: true });
+    async updateConsulta(id: string, keys: any): Promise<ConsultaDocument> {
+        return await this.consultaModel.findByIdAndUpdate(id, { $set: keys }, { new: true });
     }
-    async deleteConsulta(customId: string): Promise<ConsultaDocument> {
-        return await this.consultaModel.findOneAndDelete({ customId });
+    async deleteConsulta(id: string): Promise<ConsultaDocument> {
+        return await this.consultaModel.findByIdAndDelete(id);
     }
 }

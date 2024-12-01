@@ -15,11 +15,11 @@ export class ConsultaService {
         return await this.consultaRepository.findAllDatesToNutri(name, date);
     }
 
-    async updateConsulta(customId: string, keys: any): Promise<ConsultaDocument> {
-        return await this.consultaRepository.updateConsulta(customId, keys);
+    async updateConsulta(id: string, keys: any): Promise<ConsultaDocument> {
+        return await this.consultaRepository.updateConsulta(id, keys);
     }
 
-    async deleteConsulta(customId: string): Promise<ConsultaDocument> {
-        return await this.consultaRepository.deleteConsulta(customId);
+    async deleteConsulta(id: string): Promise<ConsultaDocument> {
+        return await this.consultaRepository.deleteConsulta(id);
     }
 }
