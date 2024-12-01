@@ -40,7 +40,7 @@ export class CreateConsultaDto {
     email: string;
 
     @IsNotEmpty()
-    @Matches(/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/, { message: 'Phone number format is invalid' })
+    @Matches(/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/, { message: 'O numero de telefone deve ser valido' })
     phone: string;
 
     @IsNotEmpty()
@@ -53,11 +53,11 @@ export class CreateConsultaDto {
 
     @IsNotEmpty()
     @IsEnum(BodyType, {
-        message: 'biotipoCorporal must be one of the following values: Ectomorfo, Mesomorfo, Endomorfo',
+        message: 'biotipoCorporal deve ser um dos seguintes valores: Ectomorfo, Mesomorfo, Endomorfo',
     })
     biotipoCorporal: BodyType;
 
     @IsNotEmpty()
-    @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/, { message: 'Invalid CPF format' })
+    @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/, { message: 'formato de cpf invalido' })
     cpf: string;
 }
