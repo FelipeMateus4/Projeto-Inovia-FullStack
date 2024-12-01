@@ -51,4 +51,4 @@ export class ConsultaEntity {
     cpf: string;
 }
 
-export const CatSchema = SchemaFactory.createForClass(ConsultaEntity);
+export const ConsultaSchema = SchemaFactory.createForClass(ConsultaEntity);
