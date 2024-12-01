@@ -11,7 +11,7 @@ export class consultaRepository {
     async createConsulta(createConsultaDto: CreateConsultaDto): Promise<ConsultaDocument> {
         try {
             const createdConsulta = new this.consultaModel(createConsultaDto);
-            return createdConsulta.save();
+            return await createdConsulta.save();
         } catch (error) {
             throw error;
         }
