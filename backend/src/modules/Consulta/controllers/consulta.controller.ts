@@ -1,6 +1,5 @@
 import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestjs/common';
 import { ConsultaService } from '../services/consulta.service';
-import { CreateConsultaDto } from '../dto/create-consulta.dto';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
 
 interface CreateConsultaResponse {
@@ -14,8 +13,10 @@ export class ConsultaController {
     constructor(private readonly consultaService: ConsultaService) {}
 
     @Post()
-    async create(@Body() createConsultaDto: CreateConsultaDto): Promise<CreateConsultaResponse> {
-        const data = await this.consultaService.createConsulta(createConsultaDto);
+    async create(@Body() requestConsultaDto: any): Promise<CreateConsultaResponse> {
+        // Passa o DTO para o serviço
+        const data = await this.consultaService.createConsulta(requestConsultaDto);
+
         return {
             message: 'Consulta criada com sucesso!',
             data,
