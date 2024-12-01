@@ -9,11 +9,10 @@ export class consultaRepository {
     constructor(@InjectModel(ConsultaEntity.name) private readonly consultaModel: Model<ConsultaDocument>) {}
 
     async createConsulta(createConsultaDto: CreateConsultaDto): Promise<ConsultaDocument> {
-        try {
-            const createdConsulta = new this.consultaModel(createConsultaDto);
-            return await createdConsulta.save();
-        } catch (error) {
-            throw error;
-        }
+        const createdConsulta = new this.consultaModel(createConsultaDto);
+        return await createdConsulta.save();
+    }
+    async findAllDatesToNutri(name: string, date: Date): Promise<ConsultaDocument[]> {
+        return await this.consultaModel.find({ nameNutri: name, date: date });
     }
 }

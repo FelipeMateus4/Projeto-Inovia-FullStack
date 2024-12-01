@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { ConsultaService } from '../services/consulta.service';
 import { CreateConsultaDto } from '../dto/create-consulta.dto';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
@@ -28,5 +28,16 @@ export class ConsultaController {
             message: 'Consulta criada com sucesso!',
             data,
         };
+    }
+    @Get()
+    async findAllDatesToNutri(
+        @Query('nameNutri') nameNutri: string,
+        @Query('date') date: string
+    ): Promise<ConsultaDocument[]> {
+        // Converter a data para o formato esperado
+        const [day, month, year] = date.split('/');
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+
+        return this.consultaService.findAllDatesToNutri(nameNutri, parsedDate);
     }
 }

@@ -8,10 +8,10 @@ export class ConsultaService {
     constructor(private readonly consultaRepository: consultaRepository) {}
 
     async createConsulta(createConsultaDto: CreateConsultaDto): Promise<ConsultaDocument> {
-        try {
-            return await this.consultaRepository.createConsulta(createConsultaDto);
-        } catch (error) {
-            throw error;
-        }
+        return await this.consultaRepository.createConsulta(createConsultaDto);
+    }
+
+    async findAllDatesToNutri(name: string, date: Date): Promise<ConsultaDocument[]> {
+        return await this.consultaRepository.findAllDatesToNutri(name, date);
     }
 }
