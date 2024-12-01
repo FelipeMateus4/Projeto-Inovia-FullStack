@@ -18,4 +18,8 @@ export class ConsultaService {
     async updateConsulta(customId: string, keys: any): Promise<ConsultaDocument> {
         return await this.consultaRepository.updateConsulta(customId, keys);
     }
+
+    async deleteConsulta(customId: string): Promise<ConsultaDocument> {
+        return await this.consultaRepository.deleteConsulta(customId);
+    }
 }

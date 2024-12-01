@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestjs/common';
 import { ConsultaService } from '../services/consulta.service';
 import { CreateConsultaDto } from '../dto/create-consulta.dto';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
@@ -44,5 +44,10 @@ export class ConsultaController {
     @Patch(':customId')
     async updateConsulta(@Param('customId') customId: string, @Body() keys: any): Promise<ConsultaDocument> {
         return this.consultaService.updateConsulta(customId, keys);
+    }
+
+    @Delete(':customId')
+    async deleteConsulta(@Param('customId') customId: string): Promise<ConsultaDocument> {
+        return this.consultaService.deleteConsulta(customId);
     }
 }
