@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Patch, Param } from '@nestjs/common';
 import { ConsultaService } from '../services/consulta.service';
 import { CreateConsultaDto } from '../dto/create-consulta.dto';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
@@ -41,8 +41,8 @@ export class ConsultaController {
         return this.consultaService.findAllDatesToNutri(nameNutri, parsedDate);
     }
 
-    @Patch()
-    async updateConsulta(@Query('customId') customId: string, @Body() keys: any): Promise<ConsultaDocument> {
+    @Patch(':customId')
+    async updateConsulta(@Param('customId') customId: string, @Body() keys: any): Promise<ConsultaDocument> {
         return this.consultaService.updateConsulta(customId, keys);
     }
 }

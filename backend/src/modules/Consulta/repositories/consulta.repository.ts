@@ -17,6 +17,6 @@ export class consultaRepository {
     }
 
     async updateConsulta(customId: string, keys: any): Promise<ConsultaDocument> {
-        return await this.consultaModel.findOneAndUpdate({ customId }, keys, { new: true });
+        return await this.consultaModel.findOneAndUpdate({ customId }, { $set: keys }, { new: true });
     }
 }
