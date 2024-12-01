@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, IsDate, IsEmail, Matches, IsEnum } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { BodyType } from 'src/modules/dataBase/entities/consulta.entity';
 
 export class CreateConsultaDto {
