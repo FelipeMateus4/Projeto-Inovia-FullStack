@@ -17,7 +17,7 @@ export function ValidateDate(validationOptions?: ValidationOptions) {
                     }
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
-                    return value > today;
+                    return value > today; // validando se a data atual é maior do que a do dia atual
                 },
                 defaultMessage(args: ValidationArguments): string {
                     return `${args.property} deve ser maior que ${args.constraints[0] || 'a data de inicio'}`;
