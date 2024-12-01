@@ -15,4 +15,8 @@ export class consultaRepository {
     async findAllDatesToNutri(name: string, date: Date): Promise<ConsultaDocument[]> {
         return await this.consultaModel.find({ nameNutri: name, date: date });
     }
+
+    async updateConsulta(customId: string, keys: any): Promise<ConsultaDocument> {
+        return await this.consultaModel.findOneAndUpdate({ customId }, keys, { new: true });
+    }
 }
