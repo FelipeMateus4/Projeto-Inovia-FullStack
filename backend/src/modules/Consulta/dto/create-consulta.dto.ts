@@ -30,10 +30,6 @@ export function ValidateDate(validationOptions?: ValidationOptions) {
 export class CreateConsultaDto {
     @IsNotEmpty()
     @IsString()
-    customId: string;
-
-    @IsNotEmpty()
-    @IsString()
     nameNutri: string;
 
     @IsNotEmpty()
