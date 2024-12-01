@@ -7,10 +7,10 @@ export enum BodyType {
     ENDOMORFO = 'Endomorfo',
 }
 
-export type CatDocument = HydratedDocument<Consulta>;
+export type ConsultaDocument = HydratedDocument<ConsultaEntity>;
 
 @Schema()
-export class Consulta {
+export class ConsultaEntity {
     @Prop({ required: true, unique: true })
     nameNutri: string;
 
@@ -51,4 +51,4 @@ export class Consulta {
     cpf: string;
 }
 
-export const CatSchema = SchemaFactory.createForClass(Consulta);
+export const CatSchema = SchemaFactory.createForClass(ConsultaEntity);
