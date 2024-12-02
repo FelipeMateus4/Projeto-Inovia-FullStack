@@ -8,6 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
+    // Configuração do uso de pipes para validação
     app.useGlobalPipes(
         new ValidationPipe({
             whitelist: true,
