@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEmail, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsString, IsEmail, IsEnum, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger'; // Import necessário para os decorators do Swagger
 import { BodyType } from 'src/modules/dataBase/entities/consulta.entity';
 
@@ -23,6 +23,9 @@ export class RequestConsultaDto {
         description: 'Horário de início da consulta no formato HH:mm.',
     })
     @IsNotEmpty()
+    @Matches(/^([01]\d|2[0-3]):[0-5]\d$/, {
+        message: 'O horário de término deve estar no formato HH:mm',
+    })
     startTime: string;
 
     @ApiProperty({
@@ -30,6 +33,9 @@ export class RequestConsultaDto {
         description: 'Horário de término da consulta no formato HH:mm.',
     })
     @IsNotEmpty()
+    @Matches(/^([01]\d|2[0-3]):[0-5]\d$/, {
+        message: 'O horário de término deve estar no formato HH:mm',
+    })
     endTime: string;
 
     @ApiProperty({

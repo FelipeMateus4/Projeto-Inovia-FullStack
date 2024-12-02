@@ -46,7 +46,9 @@ export class ConsultaController {
         @Query('nameNutri') nameNutri: string,
         @Query('date') date: string
     ): Promise<CreateConsultaResponse> {
-        const data = await this.consultaService.findAllDatesToNutri(nameNutri, new Date(date));
+        const [day, month, year] = date.split('/');
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+        const data = await this.consultaService.findAllDatesToNutri(nameNutri, new Date(parsedDate));
 
         if (!data) {
             throw { message: 'Dia sem consultas' };
