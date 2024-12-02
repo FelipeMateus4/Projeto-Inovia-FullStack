@@ -3,14 +3,18 @@ import { consultaRepository } from '../repositories/consulta.repository';
 import { CreateConsultaDto } from '../dto/create-consulta.dto';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
 import { plainToInstance } from 'class-transformer';
+import { RequestConsultaDto } from '../dto/request-consulta.dto';
 
 @Injectable()
 export class ConsultaService {
     constructor(private readonly consultaRepository: consultaRepository) {}
 
-    async createConsulta(requestConsultaDto: any): Promise<ConsultaDocument> {
+    async createConsulta(requestConsultaDto: RequestConsultaDto): Promise<ConsultaDocument> {
         const timeRegex = /^([01]\d|2[0-3]):[0-5]\d$/;
-
+        console.log(requestConsultaDto);
+        if (!requestConsultaDto.cpf) {
+            throw new BadRequestException('Dados de consulta incompletos.');
+        }
         // Validação do formato dos horários
         if (!timeRegex.test(requestConsultaDto.startTime)) {
             throw new BadRequestException('O horário inicial deve estar no formato HH:mm.');
