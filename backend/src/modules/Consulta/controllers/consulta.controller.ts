@@ -24,6 +24,27 @@ export class ConsultaController {
         type: ConsultaResponseDto,
     })
     @ApiResponse({ status: 400, description: 'Dados inválidos.' })
+    @ApiResponse({
+        status: 409,
+        description: 'Conflitos possíveis:',
+        examples: {
+            horarioConflito: {
+                summary: 'Conflito de horário',
+                value: 'Horário já ocupado para este nutricionista.',
+            },
+            chaveDuplicada: {
+                summary: 'Conflito de chave duplicada',
+                value: {
+                    statusCode: 409,
+                    error: 'Conflito de chave duplicada.',
+                    details: "O valor 'joao.dias@gmail.com' já está em uso no campo 'email'.",
+                    timestamp: '2024-12-02T14:56:00.181Z',
+                    path: '/consultas',
+                },
+            },
+        },
+    })
+    @ApiResponse({ status: 500, description: 'Erro interno no servidor.' })
     async create(@Body() requestConsultaDto: RequestConsultaDto): Promise<CreateConsultaResponse> {
         const data = await this.consultaService.createConsulta(requestConsultaDto);
         return {
@@ -41,7 +62,7 @@ export class ConsultaController {
         description: 'Lista de consultas recuperada com sucesso.',
         type: ConsultaResponseDto,
     })
-    @ApiResponse({ status: 404, description: 'Nenhuma consulta encontrada para o dia.' })
+    @ApiResponse({ status: 404, description: 'Erro de busca no banco de dados' })
     async findAllDatesToNutri(
         @Query('nameNutri') nameNutri: string,
         @Query('date') date: string
@@ -51,7 +72,7 @@ export class ConsultaController {
         const data = await this.consultaService.findAllDatesToNutri(nameNutri, new Date(parsedDate));
 
         if (!data) {
-            throw { message: 'Dia sem consultas' };
+            throw { message: 'Algum erro de busca ocorreu' };
         }
 
         return {

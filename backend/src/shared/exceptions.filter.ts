@@ -33,9 +33,25 @@ export class AllExceptionsFilter implements ExceptionFilter {
             return;
         }
 
+        // Tratamento para erros de chave duplicada do MongoDB
+        if (exception.code === 11000 && exception.name === 'MongoServerError') {
+            const duplicatedField = Object.keys(exception.keyValue)[0]; // Campo duplicado
+            const duplicatedValue = exception.keyValue[duplicatedField]; // Valor duplicado
+
+            response.status(HttpStatus.CONFLICT).json({
+                statusCode: HttpStatus.CONFLICT,
+                error: 'Conflito de chave duplicada.',
+                details: `O valor '${duplicatedValue}' já está em uso no campo '${duplicatedField}'.`,
+                timestamp: new Date().toISOString(),
+                path: request.url,
+            });
+            return;
+        }
+
         // Tratamento genérico para outros erros
         response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            name: exception.name,
             error: 'Erro inesperado no servidor.',
             details: exception.message,
             timestamp: new Date().toISOString(),
