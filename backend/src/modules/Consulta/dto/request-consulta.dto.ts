@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEmail, IsEnum, Matches } from 'class-validator';
+import { IsNotEmpty, IsString, IsEmail, IsEnum, Matches, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger'; // Import necessário para os decorators do Swagger
 import { BodyType } from 'src/modules/dataBase/entities/consulta.entity';
 
@@ -84,4 +84,8 @@ export class RequestConsultaDto {
     })
     @IsNotEmpty()
     cpf: string;
+
+    @ApiProperty({ example: 1, description: 'Número de dias recorrentes para a consulta.' })
+    @IsOptional()
+    recorrenceDays: number;
 }

@@ -60,6 +60,11 @@ export class ConsultaEntity {
         unique: true,
     })
     cpf: string;
+
+    @Prop({
+        required: false,
+    })
+    recorrenceDays: number;
 }
 
 export const ConsultaSchema = SchemaFactory.createForClass(ConsultaEntity);

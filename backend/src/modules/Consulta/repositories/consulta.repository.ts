@@ -35,4 +35,8 @@ export class consultaRepository {
         });
         return !!conflict; // as !! convertem o valor truthy para true e falsy para false
     }
+
+    async findConsultasByDate(date: Date): Promise<ConsultaDocument[]> {
+        return await this.consultaModel.find({ date });
+    }
 }

@@ -3,9 +3,10 @@ import { DatabaseModule } from 'src/modules/dataBase/database.module';
 import { ConsultaModule } from 'src/modules/consulta/consulta.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from 'src/shared/exceptions.filter';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-    imports: [DatabaseModule, ConsultaModule],
+    imports: [DatabaseModule, ConsultaModule, ScheduleModule.forRoot()],
     controllers: [],
     providers: [
         {

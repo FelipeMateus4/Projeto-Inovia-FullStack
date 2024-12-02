@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsDate, IsEmail, Matches, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsString, IsDate, IsEmail, Matches, IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { BodyType } from 'src/modules/dataBase/entities/consulta.entity';
@@ -75,4 +75,8 @@ export class CreateConsultaDto {
     @IsNotEmpty()
     @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/, { message: 'O formato do CPF é inválido.' })
     cpf: string;
+
+    @ApiProperty({ example: 1, description: 'Número de dias recorrentes para a consulta.' })
+    @IsOptional()
+    recorrenceDays: number;
 }
