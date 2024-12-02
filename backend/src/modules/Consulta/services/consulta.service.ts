@@ -17,8 +17,6 @@ export class ConsultaService {
 
         const createConsultaDto = plainToInstance(CreateConsultaDto, {
             ...requestConsultaDto,
-            startTime: requestConsultaDto.startTime,
-            endTime: requestConsultaDto.endTime,
         });
 
         // Verificar conflito no banco de dados
