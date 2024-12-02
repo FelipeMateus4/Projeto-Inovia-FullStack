@@ -9,7 +9,7 @@ export class RecurrenceService {
     constructor(private readonly consultaRepository: consultaRepository) {}
 
     @Cron(CronExpression.EVERY_30_SECONDS) // Executa diariamente à meia-noite
-    async handleRecurringConsultas() {
+    async handleRecurringConsultas(): Promise<void> {
         this.logger.log('Iniciando verificação de consultas recorrentes...');
 
         const yesterday = new Date();
@@ -25,11 +25,21 @@ export class RecurrenceService {
                 const nextRecurrenceDate = new Date(consulta.date);
                 nextRecurrenceDate.setDate(nextRecurrenceDate.getDate() + consulta.recorrenceDays);
 
-                await this.consultaRepository.updateConsulta(consulta._id.toString(), { date: nextRecurrenceDate });
-
-                this.logger.log(
-                    `Consulta recorrente criada para ${consulta.nameNutri} em ${nextRecurrenceDate.toDateString()}.`
+                const conflict = await this.consultaRepository.hasTimeConflict(
+                    consulta.nameNutri,
+                    consulta.startTime,
+                    consulta.endTime,
+                    nextRecurrenceDate
                 );
+                console.log(conflict);
+
+                if (!conflict) {
+                    await this.consultaRepository.updateConsulta(consulta._id.toString(), { date: nextRecurrenceDate });
+
+                    this.logger.log(
+                        `Consulta recorrente criada para ${consulta.nameNutri} em ${nextRecurrenceDate.toDateString()}.`
+                    );
+                }
             }
         }
 

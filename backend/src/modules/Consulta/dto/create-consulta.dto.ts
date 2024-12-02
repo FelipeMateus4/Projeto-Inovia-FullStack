@@ -14,7 +14,9 @@ export class CreateConsultaDto {
     @IsDate()
     @Transform(({ value }) => {
         const [day, month, year] = value.split('/');
-        return new Date(`${year}-${month}-${day}`);
+        const date = new Date(`${year}-${month}-${day}`);
+        date.setHours(0, 0, 0, 0);
+        return date;
     })
     date: Date;
 

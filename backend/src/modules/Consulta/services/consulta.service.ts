@@ -4,6 +4,7 @@ import { CreateConsultaDto } from '../dto/create-consulta.dto';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
 import { plainToInstance } from 'class-transformer';
 import { RequestConsultaDto } from '../dto/request-consulta.dto';
+import { transformDate, transformTime } from 'src/shared/date.transform';
 
 @Injectable()
 export class ConsultaService {
@@ -23,7 +24,8 @@ export class ConsultaService {
         const hasConflict = await this.consultaRepository.hasTimeConflict(
             createConsultaDto.nameNutri,
             createConsultaDto.startTime,
-            createConsultaDto.endTime
+            createConsultaDto.endTime,
+            createConsultaDto.date
         );
         if (hasConflict) {
             throw new ConflictException('Horário já ocupado para este nutricionista.');
@@ -38,6 +40,37 @@ export class ConsultaService {
     }
 
     async updateConsulta(id: string, keys: any): Promise<ConsultaDocument> {
+        if (keys.date) {
+            keys.date = transformDate(keys.date);
+            console.log('Transformed Date:', keys.date);
+        }
+        if (keys.startTime) {
+            keys.startTime = transformTime(keys.startTime);
+            console.log('Transformed Start Time:', keys.startTime);
+        }
+
+        if (keys.endTime) {
+            keys.endTime = transformTime(keys.endTime);
+            console.log('Transformed End Time:', keys.endTime);
+        }
+
+        const consulta = await this.consultaRepository.findConsultaById(id);
+
+        const date = keys.date || consulta.date;
+        const startTime = keys.startTime || consulta.startTime;
+        const endTime = keys.endTime || consulta.endTime;
+        const nameNutri = keys.nameNutri || consulta.nameNutri;
+
+        console.log('Merged Values:', { date, startTime, endTime, nameNutri });
+
+        if (keys.date || keys.startTime || keys.endTime) {
+            const hasConflict = await this.consultaRepository.hasTimeConflict(nameNutri, startTime, endTime, date);
+            console.log('Conflict Check:', hasConflict);
+            if (hasConflict) {
+                throw new ConflictException('Conflito de horário detectado.');
+            }
+        }
+
         return await this.consultaRepository.updateConsulta(id, keys);
     }
 
