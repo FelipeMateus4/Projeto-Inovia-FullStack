@@ -4,9 +4,10 @@ import { ConsultaModule } from 'src/modules/consulta/consulta.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from 'src/shared/exceptions.filter';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [DatabaseModule, ConsultaModule, ScheduleModule.forRoot()],
+    imports: [DatabaseModule, ConsultaModule, ScheduleModule.forRoot(), ConfigModule.forRoot({ isGlobal: true })],
     controllers: [],
     providers: [
         {

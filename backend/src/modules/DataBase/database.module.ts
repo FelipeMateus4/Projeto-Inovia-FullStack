@@ -1,11 +1,18 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
-        MongooseModule.forRoot('mongodb://localhost:28017/ConsultorioNutricionista', {
-            autoIndex: true,
-            autoCreate: true,
+        ConfigModule,
+        MongooseModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) => ({
+                uri: configService.get<string>('DATABASE_URL'),
+                autoIndex: true,
+                autoCreate: true,
+            }),
+            inject: [ConfigService],
         }),
     ],
     exports: [MongooseModule],
