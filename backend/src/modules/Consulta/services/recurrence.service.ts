@@ -39,6 +39,29 @@ export class RecurrenceService {
                     this.logger.log(
                         `Consulta recorrente criada para ${consulta.nameNutri} em ${nextRecurrenceDate.toDateString()}.`
                     );
+                } else {
+                    for (let i = 0; i <= 10; i++) {
+                        nextRecurrenceDate.setDate(nextRecurrenceDate.getDate() + consulta.recorrenceDays);
+
+                        const conflict = await this.consultaRepository.hasTimeConflict(
+                            consulta.nameNutri,
+                            consulta.startTime,
+                            consulta.endTime,
+                            nextRecurrenceDate
+                        );
+
+                        if (!conflict) {
+                            await this.consultaRepository.updateConsulta(consulta._id.toString(), {
+                                date: nextRecurrenceDate,
+                            });
+
+                            this.logger.log(
+                                `Consulta recorrente criada para ${consulta.nameNutri} em ${nextRecurrenceDate.toDateString()}.`
+                            );
+
+                            break;
+                        }
+                    }
                 }
             }
         }
