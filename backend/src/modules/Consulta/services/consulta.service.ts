@@ -64,7 +64,13 @@ export class ConsultaService {
         console.log('Merged Values:', { date, startTime, endTime, nameNutri });
 
         if (keys.date || keys.startTime || keys.endTime) {
-            const hasConflict = await this.consultaRepository.hasTimeConflict(nameNutri, startTime, endTime, date);
+            const hasConflict = await this.consultaRepository.hasTimeConflict(
+                nameNutri,
+                startTime,
+                endTime,
+                date,
+                consulta._id.toString()
+            );
             console.log('Conflict Check:', hasConflict);
             if (hasConflict) {
                 throw new ConflictException('Conflito de horário detectado.');

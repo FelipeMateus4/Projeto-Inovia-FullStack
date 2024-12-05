@@ -22,8 +22,15 @@ export class consultaRepository {
     async deleteConsulta(id: string): Promise<ConsultaDocument> {
         return await this.consultaModel.findByIdAndDelete(id);
     }
-    async hasTimeConflict(nameNutri: string, startTime: Date, endTime: Date, date: Date): Promise<boolean> {
+    async hasTimeConflict(
+        nameNutri: string,
+        startTime: Date,
+        endTime: Date,
+        date: Date,
+        excludeId?: string // Adicione um parâmetro opcional para passar o ID a ser ignorado
+    ): Promise<boolean> {
         const conflict = await this.consultaModel.findOne({
+            _id: { $ne: excludeId }, // Exclui o documento com o ID fornecido
             nameNutri,
             date,
             $or: [
@@ -32,7 +39,7 @@ export class consultaRepository {
                 { startTime: { $lte: startTime }, endTime: { $gte: endTime } },
             ],
         });
-        return !!conflict; // as !! convertem o valor truthy para true e falsy para false
+        return !!conflict; // Converte o resultado truthy/falsy para true/false
     }
 
     async findConsultasByDate(date: Date): Promise<ConsultaDocument[]> {
