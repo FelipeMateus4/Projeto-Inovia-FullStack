@@ -2,10 +2,10 @@ services:
     backend:
         build: .
         ports:
-            - '3000:3000' # Porta do backend
+            - '3000:3000'
         volumes:
-            - .:/usr/src/app # Mapear código local para o container
-        command: npm run start:dev # Rodar o servidor no modo desenvolvimento
+            - .:/usr/src/app
+        command: npm run start:dev # Roda o servidor no modo desenvolvimento
         environment:
             MONGO_URI: mongodb://mongodb:27017/ConsultorioNutricionista # Variável de ambiente para conexão com o MongoDB
         depends_on:
@@ -17,7 +17,7 @@ services:
         ports:
             - '28017:27017' # Porta do MongoDB
         volumes:
-            - mongodb_data:/data/db # Persistir dados do MongoDB
+            - mongodb_data:/data/db
 
 volumes:
     mongodb_data: # Volume para persistência do banco
