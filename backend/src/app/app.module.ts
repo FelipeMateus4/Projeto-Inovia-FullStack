@@ -5,9 +5,16 @@ import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from 'src/shared/exceptions.filter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from 'src/modules/auth/auth.module';
 
 @Module({
-    imports: [DatabaseModule, ConsultaModule, ScheduleModule.forRoot(), ConfigModule.forRoot({ isGlobal: true })],
+    imports: [
+        DatabaseModule,
+        ConsultaModule,
+        ScheduleModule.forRoot(),
+        AuthModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+    ],
     controllers: [],
     providers: [
         {

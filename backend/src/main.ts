@@ -4,10 +4,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-
+    const app = await NestFactory.create(AppModule, { cors: true });
+    // ativando os cookies
+    app.use(cookieParser());
     // Configuração do uso de pipes para validação
     app.useGlobalPipes(
         new ValidationPipe({

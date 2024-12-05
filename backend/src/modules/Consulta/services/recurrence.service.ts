@@ -8,7 +8,7 @@ export class RecurrenceService {
 
     constructor(private readonly consultaRepository: consultaRepository) {}
 
-    @Cron(CronExpression.EVERY_30_SECONDS) // Executa diariamente à meia-noite
+    @Cron(CronExpression.EVERY_30_SECONDS) // Teste a cada 30 segundos, mas o correto seria um tempo maior como CronExpression.EVERY_DAY
     async handleRecurringConsultas(): Promise<void> {
         this.logger.log('Iniciando verificação de consultas recorrentes...');
 
@@ -41,6 +41,7 @@ export class RecurrenceService {
                     );
                 } else {
                     for (let i = 0; i <= 10; i++) {
+                        // tentaremos criar a consulta recorrente por até 10 tempos de recorrencia
                         nextRecurrenceDate.setDate(nextRecurrenceDate.getDate() + consulta.recorrenceDays);
 
                         const conflict = await this.consultaRepository.hasTimeConflict(

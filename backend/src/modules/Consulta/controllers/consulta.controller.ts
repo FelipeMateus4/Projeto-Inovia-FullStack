@@ -1,9 +1,10 @@
-import { Controller, Post, Body, Get, Query, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { ConsultaService } from '../services/consulta.service';
 import { ConsultaDocument } from 'src/modules/dataBase/entities/consulta.entity';
 import { RequestConsultaDto } from '../dto/request-consulta.dto';
 import { ConsultaResponseDto } from '../dto/consultaResponse.dto';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 interface CreateConsultaResponse {
     message: string;
@@ -12,6 +13,7 @@ interface CreateConsultaResponse {
 }
 
 @ApiTags('Consultas') // Agrupa os endpoints no Swagger
+@UseGuards(JwtAuthGuard)
 @Controller('consultas')
 export class ConsultaController {
     constructor(private readonly consultaService: ConsultaService) {}
