@@ -5,9 +5,10 @@ services:
             - '3000:3000'
         volumes:
             - .:/usr/src/app
-        command: npm run start:dev # Roda o servidor no modo desenvolvimento
+            - node_modules:/usr/src/app/node_modules
+        command: npm run start:dev
         environment:
-            MONGO_URI: mongodb://mongodb:27017/ConsultorioNutricionista # Variável de ambiente para conexão com o MongoDB
+            MONGO_URI: mongodb://mongodb:27017/ConsultorioNutricionista
         depends_on:
             - mongodb
 
@@ -15,9 +16,10 @@ services:
         image: mongo:6.0
         container_name: mongodb
         ports:
-            - '28017:27017' # Porta do MongoDB
+            - '28017:27017'
         volumes:
             - mongodb_data:/data/db
 
 volumes:
-    mongodb_data: # Volume para persistência do banco
+    mongodb_data:
+    node_modules:
