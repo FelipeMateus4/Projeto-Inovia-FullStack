@@ -9,7 +9,7 @@ export class CreateConsultaDto {
     @IsString()
     nameNutri: string;
 
-    @ApiProperty({ description: 'Data da consulta no formato DD/MM/AAAA' }) //
+    @ApiProperty({ description: 'Data da consulta no formato DD/MM/AAAA' })
     @IsNotEmpty()
     @IsDate()
     @Transform(({ value }) => {
