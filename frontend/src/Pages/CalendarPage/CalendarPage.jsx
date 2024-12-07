@@ -1,15 +1,18 @@
 import Calendar from '../../Components/Calendar/Calendar';
 import './CalendarPage.css';
+import { Header } from '../../Components/Header/Header';
+import Footer from '../../Components/Footer/Footer';
 
 const CalendarPage = () => {
     return (
-        <div className="calendar-page">
-            <div className="header">
-                <h1>Agendar Sessão</h1>
+        <div>
+            <Header />
+            <div className="calendar-page">
+                <div className="calendar-wrapper">
+                    <Calendar />
+                </div>
             </div>
-            <div className="calendar-wrapper">
-                <Calendar />
-            </div>
+            <Footer></Footer>
         </div>
     );
 };

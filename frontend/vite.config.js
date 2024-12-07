@@ -6,9 +6,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/nutriapi": {
-        target: "http://backend:3000",
+        target: "http://backend:3000", 
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/nutriapi/, ""), 
       },
     },
   },
