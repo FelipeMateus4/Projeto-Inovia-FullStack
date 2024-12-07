@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
-import Calendar from './Pages/Calendar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CalendarPage from './Pages/CalendarPage/CalendarPage';
 
 function App() {
     return (
         <Router>
             <Routes>
-                <Route index element={<Calendar />} />
+                <Route index element={<CalendarPage />} />
             </Routes>
         </Router>
     );
