@@ -2,7 +2,7 @@ import './Footer.css';
 
 const Footer = () => {
     return (
-        <footer className="footer">
+        <footer className="footer bg-indigo-700">
             <div className="footer-content">
                 <div className="footer-section">
                     <h4>Institucional</h4>
@@ -42,7 +42,7 @@ const Footer = () => {
                     </ul>
                 </div>
             </div>
-            <div className="footer-bottom">
+            <div className="footer-bottom ">
                 &copy; 2010 - 2024 Super Nutri Calendar Ltda. Todos os direitos reservados.
             </div>
         </footer>
