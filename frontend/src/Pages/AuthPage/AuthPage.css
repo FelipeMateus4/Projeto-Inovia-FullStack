@@ -1,0 +1,55 @@
+.Config {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.LoginContainer {
+    display: flex;
+    min-height: 75vh;
+    width: 100vw;
+    background-color: #d8e0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+}
+
+.AuthContainer {
+    background-color: rgba(197, 205, 240, 0.699);
+    width: 100%;
+    max-width: 500px;
+    min-height: 350px;
+    padding: 20px;
+    margin-top: 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Texto {
+    font-size: 1.5rem;
+}
+
+.ButtonEdit {
+    text-align: center;
+    font-size: x-large;
+    margin-top: 40px;
+    width: 20%;
+    height: 40px;
+}
+
+.Line {
+    display: flex;
+    width: 110%;
+    min-height: 1px;
+    background-color: #000000;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

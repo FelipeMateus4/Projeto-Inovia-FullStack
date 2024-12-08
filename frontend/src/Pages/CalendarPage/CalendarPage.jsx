@@ -6,13 +6,14 @@ import Footer from '../../Components/Footer/Footer';
 const CalendarPage = () => {
     return (
         <div>
+            {' '}
             <Header />
             <div className="calendar-page">
                 <div className="calendar-wrapper">
                     <Calendar />
                 </div>
             </div>
-            <Footer></Footer>
+            <Footer />
         </div>
     );
 };
