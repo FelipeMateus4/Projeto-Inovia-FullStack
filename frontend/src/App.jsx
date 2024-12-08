@@ -1,13 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CalendarPage from './Pages/CalendarPage/CalendarPage';
+import AppRoutes from './Routes/Routes';
 
 function App() {
     return (
-        <Router>
-            <Routes>
-                <Route index element={<CalendarPage />} />
-            </Routes>
-        </Router>
+        <div className="App">
+            <AppRoutes />
+        </div>
     );
 }
 

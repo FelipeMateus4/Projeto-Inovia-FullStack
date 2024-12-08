@@ -1,15 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Calendar from "../Pages/Calendar";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CalendarPage from '../Pages/CalendarPage/CalendarPage';
+import AuthPage from '../Pages/AuthPage/AuthPage';
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        {/* Define a rota principal para o Calendar */}
-        <Route path="/" element={<Calendar />} />
-      </Routes>
-    </Router>
-  );
+function AppRoutes() {
+    return (
+        <Router>
+            <Routes>
+                {/* Define a rota principal para o Calendar */}
+                <Route index element={<CalendarPage />} />
+                <Route path="/auth" element={<AuthPage />} />
+            </Routes>
+        </Router>
+    );
 }
 
-export default App;
+export default AppRoutes;
