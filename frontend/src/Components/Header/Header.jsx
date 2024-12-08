@@ -32,7 +32,7 @@ const Navigation = () => {
                     </div>
 
                     {/* Navegação */}
-                    <ul className="flex space-x-4 ml-auto mr-40 ">
+                    <ul className="flex space-x-4 ml-auto mr-60 ">
                         {['Consultas', 'Alimentação', 'Dicas de Dieta'].map((item) => (
                             <li
                                 key={item}
