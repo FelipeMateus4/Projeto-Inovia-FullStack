@@ -11,9 +11,10 @@ const Navigation = () => {
 
     return (
         <div className="w-full fixed top-0 bg-indigo-600 z-50 shadow-lg">
-            <div className="2xl:container 2xl:mx-auto py-5 px-7 justify-end">
+            <div className="w-full py-5 px-7">
                 <nav className="flex justify-between items-center">
-                    <div className="flex items-center space-x-3 lg:pr-16 pr-6">
+                    {/* Logo e título */}
+                    <div className="flex items-center space-x-3 pl-0">
                         <svg
                             className="cursor-pointer"
                             width="34"
@@ -27,11 +28,11 @@ const Navigation = () => {
                                 fill="#ffffff"
                             />
                         </svg>
-                        <h2 className="font-normal text-2xl leading-6 text-white"> Consultas Calendar</h2>
+                        <h2 className="font-normal text-2xl leading-6 text-white">Consultas Calendar</h2>
                     </div>
 
-                    {/* Navegação para dispositivos maiores */}
-                    <ul className="hidden md:flex flex-auto space-x-2  mx-1000 ">
+                    {/* Navegação */}
+                    <ul className="flex space-x-4 ml-auto mr-40">
                         {['Consultas', 'Alimentação', 'Dicas de Dieta'].map((item) => (
                             <li
                                 key={item}
@@ -40,7 +41,7 @@ const Navigation = () => {
                                     selected === item
                                         ? 'text-white bg-indigo-700'
                                         : 'text-gray-300 bg-indigo-500 hover:bg-indigo-600'
-                                } cursor-pointer px-3 py-2.5 font-normal text-xs leading-3 rounded`}
+                                } cursor-pointer px-4 py-2 font-normal text-sm rounded`}
                             >
                                 {item}
                             </li>
@@ -48,7 +49,7 @@ const Navigation = () => {
                     </ul>
 
                     {/* Botão de login/logout */}
-                    <div className="flex space-x-4 items-center ">
+                    <div className="ml-auto">
                         <button
                             onClick={toggleAuth}
                             className="text-white bg-indigo-700 px-4 py-2 rounded shadow-md hover:bg-indigo-800"
