@@ -25,17 +25,23 @@ const Footer = () => {
                     <h4>Siga-nos nas redes Socias </h4>
                     <ul className="social-media">
                         <li>
-                            <a href="https://www.facebook.com/?locale=pt_BR" className="text-decoration-none ml-2">
+                            <a
+                                href="https://www.facebook.com/?locale=pt_BR"
+                                className="text-blue-500 hover:underline ml-2"
+                            >
                                 Facebook
                             </a>
                         </li>
                         <li>
-                            <a href="https://x.com/elonmusk" className="text-decoration-none ml-2">
+                            <a href="https://x.com/elonmusk" className="text-blue-500 hover:underline ml-2">
                                 X
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.instagram.com/filipedeschamps/" className="text-decoration-none ml-2">
+                            <a
+                                href="https://www.instagram.com/inoviacorp/"
+                                className="text-blue-500 hover:underline ml-2"
+                            >
                                 Instagram
                             </a>
                         </li>
