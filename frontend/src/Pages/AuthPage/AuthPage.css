@@ -54,3 +54,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 40px;
 }
+
+.Error {
+    color: rgb(0, 0, 0);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+    background-color: rgb(228, 144, 158);
+    border-radius: 10px;
+    border: 1px solid red;
+}

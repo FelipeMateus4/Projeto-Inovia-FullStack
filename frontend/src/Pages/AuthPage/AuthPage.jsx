@@ -2,10 +2,51 @@ import { Header } from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
 import './AuthPage.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthPage = () => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            console.log('Email:', email);
+            console.log('Senha:', senha);
+            const response = await fetch('http://localhost:3000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ email: email, password: senha }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login efetuado com sucesso:', data);
+                navigate('/');
+            } else if (response.status === 401) {
+                const errorData = await response.json();
+                console.log(errorData);
+                setError('Email ou senha incorretos ou invalidos.');
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            console.error('Erro ao tentar logar:', error);
+
+            if (error.name === 'TypeError') {
+                setError('Erro de conexão com o servidor.');
+            } else if (error.name === 'SyntaxError') {
+                setError('Resposta inesperada do servidor.');
+            } else {
+                setError('Erro inesperado ao tentar logar');
+            }
+        }
+    };
 
     return (
         <div>
@@ -15,10 +56,12 @@ const AuthPage = () => {
                     <section className="AuthContainer flex flex-col items-center">
                         <h1 className=" text-center text-xl font-black text-3xl font-mono">Faça seu Login</h1>
                         <div className="Line"></div>
+                        {error && <div className="Error mb-10">{error}</div>}
+
                         <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
                             <input
                                 className="formss-input w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
-                                type="text"
+                                type="email"
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -31,7 +74,11 @@ const AuthPage = () => {
                                 onChange={(e) => setSenha(e.target.value)}
                             />
                         </div>
-                        <button type="submit" className=" ButtonEdit text-white bg-blue-500 hover:bg-blue-700 rounded">
+                        <button
+                            type="submit"
+                            className=" ButtonEdit text-white bg-blue-500 hover:bg-blue-700 rounded"
+                            onClick={handleLogin}
+                        >
                             Login
                         </button>
                     </section>

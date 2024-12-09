@@ -7,7 +7,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, { cors: true });
+    const app = await NestFactory.create(AppModule);
     // ativando os cookies
     app.use(cookieParser());
     // Configuração do uso de pipes para validação
@@ -18,6 +18,13 @@ async function bootstrap() {
             transform: true,
         })
     );
+
+    app.enableCors({
+        origin: 'http://localhost:5173',
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    });
 
     // Configuração do Swagger
     const config = new DocumentBuilder()
