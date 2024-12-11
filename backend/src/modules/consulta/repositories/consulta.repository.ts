@@ -49,4 +49,7 @@ export class consultaRepository {
     async findConsultaById(id: string): Promise<ConsultaDocument> {
         return await this.consultaModel.findById(id);
     }
+    async findAllConsultas(): Promise<ConsultaDocument[]> {
+        return await this.consultaModel.find();
+    }
 }

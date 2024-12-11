@@ -56,31 +56,25 @@ export class ConsultaController {
     }
 
     @Get()
-    @ApiOperation({ summary: 'Obtém todas as consultas de um nutricionista em uma data específica' })
-    @ApiQuery({ name: 'nameNutri', type: String, description: 'Nome do nutricionista' })
-    @ApiQuery({ name: 'date', type: String, description: 'Data no formato DD/MM/AAAA' })
-    @ApiResponse({
-        status: 200,
-        description: 'Lista de consultas recuperada com sucesso.',
-        type: ConsultaResponseDto,
-    })
-    @ApiResponse({ status: 404, description: 'Erro de busca no banco de dados' })
-    async findAllDatesToNutri(
-        @Query('nameNutri') nameNutri: string,
-        @Query('date') date: string
-    ): Promise<CreateConsultaResponse> {
-        const [day, month, year] = date.split('/');
-        const parsedDate = new Date(`${year}-${month}-${day}`);
-        const data = await this.consultaService.findAllDatesToNutri(nameNutri, new Date(parsedDate));
+    @ApiOperation({ summary: 'Busca consultas, com ou sem filtros' })
+    @ApiQuery({ name: 'nameNutri', type: String, required: false, description: 'Nome do nutricionista (opcional)' })
+    @ApiQuery({ name: 'date', type: String, required: false, description: 'Data no formato DD/MM/AAAA (opcional)' })
+    async findConsultas(
+        @Query('nameNutri') nameNutri?: string,
+        @Query('date') date?: string
+    ): Promise<ConsultaDocument[] | CreateConsultaResponse> {
+        if (nameNutri && date) {
+            const [day, month, year] = date.split('/');
+            const parsedDate = new Date(`${year}-${month}-${day}`);
+            const data = await this.consultaService.findAllDatesToNutri(nameNutri, parsedDate);
 
-        if (!data) {
-            throw { message: 'Algum erro de busca ocorreu' };
+            return {
+                message: 'Veja todas ocorrências de consultas',
+                datavet: data,
+            };
         }
 
-        return {
-            message: 'Veja todas ocorrências de consultas',
-            datavet: data,
-        };
+        return await this.consultaService.findAllConsultas();
     }
 
     @Patch(':id')

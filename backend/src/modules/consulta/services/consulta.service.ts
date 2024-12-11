@@ -83,4 +83,7 @@ export class ConsultaService {
     async deleteConsulta(id: string): Promise<ConsultaDocument> {
         return await this.consultaRepository.deleteConsulta(id);
     }
+    async findAllConsultas(): Promise<ConsultaDocument[]> {
+        return await this.consultaRepository.findAllConsultas();
+    }
 }
