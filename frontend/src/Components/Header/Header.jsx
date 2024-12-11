@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import './Header.css';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearAuthData } from '../../Redux/Slices/AuthSlice';
 
 const Navigation = () => {
     const [selected, setSelected] = useState('Collections');
-    const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado para login/logout
+    const isAuth = useSelector((state) => state.auth.isAuthenticated);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const toggleAuth = () => {
-        setIsAuthenticated(!isAuthenticated);
+        if (!isAuth.isAuthenticated) {
+            dispatch(clearAuthData());
+        }
+        navigate('/auth');
     };
 
     return (
@@ -15,19 +24,6 @@ const Navigation = () => {
                 <nav className="flex justify-between items-center">
                     {/* Logo e título */}
                     <div className="flex items-center space-x-3 pl-0">
-                        <svg
-                            className="cursor-pointer"
-                            width="34"
-                            height="34"
-                            viewBox="0 0 34 34"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M1 17H0H1ZM7 17H6H7ZM17 27V28V27ZM27 17H28H27ZM17 0C12.4913 0 8.1673 1.79107 4.97918 4.97918L6.3934 6.3934C9.20644 3.58035 13.0218 2 17 2V0ZM4.97918 4.97918C1.79107 8.1673 0 12.4913 0 17H2C2 13.0218 3.58035 9.20644 6.3934 6.3934L4.97918 4.97918ZM0 17C0 21.5087 1.79107 25.8327 4.97918 29.0208L6.3934 27.6066C3.58035 24.7936 2 20.9782 2 17H0ZM4.97918 29.0208C8.1673 32.2089 12.4913 34 17 34V32C13.0218 32 9.20644 30.4196 6.3934 27.6066L4.97918 29.0208ZM17 34C21.5087 34 25.8327 32.2089 29.0208 29.0208L27.6066 27.6066C24.7936 30.4196 20.9782 32 17 32V34ZM29.0208 29.0208C32.2089 25.8327 34 21.5087 34 17H32C32 20.9782 30.4196 24.7936 27.6066 27.6066L29.0208 29.0208ZM34 17C34 12.4913 32.2089 8.1673 29.0208 4.97918L27.6066 6.3934C30.4196 9.20644 32 13.0218 32 17H34ZM29.0208 4.97918C25.8327 1.79107 21.5087 0 17 0V2C20.9782 2 24.7936 3.58035 27.6066 6.3934L29.0208 4.97918Z"
-                                fill="#ffffff"
-                            />
-                        </svg>
                         <h2 className="font-normal text-2xl leading-6 text-white">Consultas Calendar</h2>
                     </div>
 
@@ -52,9 +48,9 @@ const Navigation = () => {
                     <div className="ml-auto">
                         <button
                             onClick={toggleAuth}
-                            className="text-white bg-indigo-700 px-4 py-2 rounded shadow-md hover:bg-indigo-800"
+                            className="text-white bg-indigo-700 px-4 py-2 rounded w-20 drop-shadow-md hover:bg-indigo-800"
                         >
-                            {isAuthenticated ? 'Logout' : 'Login'}
+                            {isAuth ? 'Logout' : 'Login'}
                         </button>
                     </div>
                 </nav>

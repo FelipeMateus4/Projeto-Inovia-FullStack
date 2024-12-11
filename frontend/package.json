@@ -16,10 +16,13 @@
     "@fullcalendar/list": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+    "@reduxjs/toolkit": "^2.4.0",
     "frontend": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.0.2"
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.0.2",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

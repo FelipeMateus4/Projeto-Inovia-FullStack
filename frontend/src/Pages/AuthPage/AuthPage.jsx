@@ -2,6 +2,8 @@ import { Header } from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
 import './AuthPage.css';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthData } from '../../Redux/Slices/AuthSlice';
 import { useNavigate } from 'react-router-dom';
 
 const AuthPage = () => {
@@ -9,6 +11,7 @@ const AuthPage = () => {
     const [senha, setSenha] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -27,6 +30,7 @@ const AuthPage = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login efetuado com sucesso:', data);
+                dispatch(setAuthData({ user: data.user, token: data.token }));
                 navigate('/');
             } else if (response.status === 401) {
                 const errorData = await response.json();
