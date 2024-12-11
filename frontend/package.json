@@ -10,12 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/list": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+    "@mui/core-downloads-tracker": "^6.1.10",
+    "@mui/icons-material": "^6.1.10",
+    "@mui/material": "^6.1.10",
     "@reduxjs/toolkit": "^2.4.0",
     "frontend": "file:",
     "react": "^18.3.1",

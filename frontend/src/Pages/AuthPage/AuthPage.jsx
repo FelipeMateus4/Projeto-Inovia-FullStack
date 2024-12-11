@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAuthData } from '../../Redux/Slices/AuthSlice';
 import { useNavigate } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
 
 const AuthPage = () => {
     const [email, setEmail] = useState('');
@@ -60,27 +62,33 @@ const AuthPage = () => {
                     <section className="AuthContainer flex flex-col items-center">
                         <h1 className=" text-center text-xl font-black text-3xl font-mono">Faça seu Login</h1>
                         <div className="Line"></div>
-                        {error && <div className="Error mb-10">{error}</div>}
+                        {error && <div className="Error mb-10 ml-10">{error}</div>}
 
-                        <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
-                            <input
-                                className="formss-input w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
-                                type="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <input
-                                className="formss-input w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
-                                type="password"
-                                placeholder="Senha"
-                                value={senha}
-                                onChange={(e) => setSenha(e.target.value)}
-                            />
+                        <div className="flex flex-col items-start space-y-6 w-full max-w-sm">
+                            <div className="flex items-center w-full mb-4">
+                                <PersonIcon className="text-black mr-4 " fontSize="large" />
+                                <input
+                                    className="formss-input w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </div>
+                            <div className=" flex items-center w-full mb-4">
+                                <LockIcon className="text-black mr-4" fontSize="large" />
+                                <input
+                                    className="formss-input w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
+                                    type="password"
+                                    placeholder="Senha"
+                                    value={senha}
+                                    onChange={(e) => setSenha(e.target.value)}
+                                />
+                            </div>
                         </div>
                         <button
                             type="submit"
-                            className=" ButtonEdit text-white bg-blue-500 hover:bg-blue-700 rounded"
+                            className=" ButtonEdit text-white bg-blue-500 hover:bg-blue-700 rounded ml-5"
                             onClick={handleLogin}
                         >
                             Login

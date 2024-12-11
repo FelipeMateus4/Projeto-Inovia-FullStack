@@ -33,7 +33,7 @@ const Footer = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="https://x.com/elonmusk" className="text-blue-500 hover:underline ml-2">
+                            <a href="https://x.com" className="text-blue-500 hover:underline ml-2">
                                 X
                             </a>
                         </li>
