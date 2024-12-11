@@ -11,7 +11,6 @@ import AddEventModal from './AddCalendarBuild';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
-    const [isYearView, setIsYearView] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [eventsData, setEventsData] = useState([]);
     const [formData, setFormData] = useState({
@@ -80,10 +79,6 @@ const Calendar = () => {
         fetchEvents();
     }, []);
 
-    const HandleSetData = (viewInfo) => {
-        setIsYearView(viewInfo.view.type === 'dayGridYear');
-    };
-
     const openModal = () => setShowModal(true);
     const closeModal = () => {
         setShowModal(false);
@@ -120,12 +115,15 @@ const Calendar = () => {
 
     return (
         <div
+            className="Scroll"
             style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                height: 'calc(100vh - 300px)', // Ajusta dinamicamente, adicionando mais espaço para o scroll
+                overflowY: 'scroll',
                 padding: '20px',
-                overflowY: isYearView ? 'scroll' : 'hidden',
-                height: isYearView ? '100vh' : 'auto',
-                transition: 'height 0.3s ease',
-                position: 'relative',
+                boxSizing: 'border-box',
             }}
         >
             <FullCalendar
@@ -133,7 +131,6 @@ const Calendar = () => {
                 plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
                 locale={ptBrLocale}
                 initialView="dayGridMonth"
-                height="auto"
                 headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',
@@ -150,7 +147,7 @@ const Calendar = () => {
                 selectable={true}
                 events={eventsData}
                 contentHeight="auto"
-                datesSet={HandleSetData}
+                height="100%"
             />
 
             <AddEventModal

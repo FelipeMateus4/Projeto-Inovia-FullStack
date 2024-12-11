@@ -25,6 +25,9 @@
     font-weight: bold;
 }
 
+.fc-toolbar {
+    text-transform: capitalize;
+}
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -46,4 +49,14 @@
     max-width: 400px;
     width: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.Scroll {
+    display: 'flex';
+    flex-direction: 'column';
+    width: '100%';
+    height: 'calc(100vh - 300px)';
+    overflow-y: 'scroll';
+    padding: '20px';
+    box-sizing: 'border-box';
 }
