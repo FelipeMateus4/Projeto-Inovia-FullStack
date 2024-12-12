@@ -19,9 +19,9 @@ export async function UpdateEventOnServer(_id, key_values) {
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Erro ao atualizar eventos:', response.status, errorText);
-            throw new Error(`Erro ao atualizar evento: ${response.status} - ${errorText}`);
+            const errorText = await response.json();
+            console.error('Erro ao atualizar a consulta:', response.status, errorText);
+            throw new Error(errorText.error.message);
         }
 
         const data = await response.json();
@@ -31,7 +31,7 @@ export async function UpdateEventOnServer(_id, key_values) {
         return data;
     } catch (error) {
         console.error('Erro de rede:', error);
-        throw new Error('Erro de rede.');
+        throw new Error(error);
     }
 }
 

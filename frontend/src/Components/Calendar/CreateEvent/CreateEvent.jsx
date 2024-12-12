@@ -40,8 +40,9 @@ export async function createEventOnServer(formData) {
 
         if (response.status === 409) {
             const errorResponse = await response.json();
+            console.log('Erro:', errorResponse);
             const errorMessage =
-                errorResponse.message || 'Existe alguma informação conflitante, por favor verifique os dados.';
+                errorResponse.error.message || 'Existe alguma informação conflitante, por favor verifique os dados.';
             throw new Error(errorMessage);
         }
         if (response.status === 400) {

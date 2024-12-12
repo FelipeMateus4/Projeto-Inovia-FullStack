@@ -1,7 +1,23 @@
 import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
-const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit, error }) => {
+const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit, handlegetUserEvents, error }) => {
+    const [userEvents, setUserEvents] = useState([]);
+    useEffect(() => {
+        const fetchUserEvents = async () => {
+            try {
+                const data = await handlegetUserEvents();
+                setUserEvents(data);
+            } catch (error) {
+                console.error('Erro ao buscar nutricionistas.', error);
+                throw new Error('Erro ao buscar nutricionistas.');
+            }
+        };
+
+        fetchUserEvents();
+    }, [handlegetUserEvents]);
+
     if (!showModal) return null;
 
     return (
@@ -21,15 +37,22 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                     {/* Nutricionista */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Nutricionista:</label>
-                        <input
-                            type="text"
+                        <select
                             name="nameNutri"
                             value={formData.nameNutri}
                             onChange={handleChange}
                             required
-                            placeholder="Nome do Nutricionista"
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                        />
+                        >
+                            <option value="" disabled>
+                                Selecione um nutricionista...
+                            </option>
+                            {userEvents.map((nutri, index) => (
+                                <option key={nutri.id || index} value={nutri.nome}>
+                                    {nutri.nome}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     {/* Data */}
@@ -204,6 +227,7 @@ AddEventModal.propTypes = {
     formData: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    handlegetUserEvents: PropTypes.func.isRequired,
     error: PropTypes.any,
 };
 
