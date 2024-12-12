@@ -41,7 +41,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             response.status(HttpStatus.CONFLICT).json({
                 statusCode: HttpStatus.CONFLICT,
                 error: 'Conflito de chave duplicada.',
-                details: `O valor '${duplicatedValue}' já está em uso no campo '${duplicatedField}'.`,
+                message: ` '${duplicatedValue}' já está em uso.`,
                 timestamp: new Date().toISOString(),
                 path: request.url,
             });

@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 
-const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit }) => {
+const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit, error }) => {
     if (!showModal) return null;
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-3/4 max-w-4xl p-6">
+                {error && <div className="Error mb-10 flex justify-center">{error}</div>}
                 <div className="flex justify-between items-center border-b pb-4">
                     <h2 className="text-2xl font-bold text-gray-700">Agendar Sessão</h2>
                     <button
@@ -168,6 +169,7 @@ AddEventModal.propTypes = {
     formData: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    error: PropTypes.any,
 };
 
 export default AddEventModal;

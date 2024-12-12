@@ -12,6 +12,7 @@ import AddEventModal from './AddCalendarBuild';
 const Calendar = () => {
     const calendarRef = useRef(null);
     const [showModal, setShowModal] = useState(false);
+    const [error, setError] = useState(null);
     const [eventsData, setEventsData] = useState([]);
     const [formData, setFormData] = useState({
         nameNutri: '',
@@ -109,7 +110,7 @@ const Calendar = () => {
             setEventsData((prev) => [...prev, eventObj]);
             closeModal();
         } catch (error) {
-            console.error(error);
+            setError(error.message);
         }
     };
 
@@ -156,6 +157,7 @@ const Calendar = () => {
                 formData={formData}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
+                error={error}
             />
         </div>
     );

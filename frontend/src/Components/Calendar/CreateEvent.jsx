@@ -27,7 +27,7 @@ export async function createEventOnServer(formData) {
             cpf,
         };
 
-        if (recorrenceDays.trim() !== '') {
+        if (recorrenceDays && recorrenceDays.toString().trim() !== '') {
             body.recorrenceDays = Number(recorrenceDays);
         }
 
@@ -38,9 +38,21 @@ export async function createEventOnServer(formData) {
             body: JSON.stringify(body),
         });
 
+        if (response.status === 409) {
+            const errorResponse = await response.json();
+            const errorMessage =
+                errorResponse.message || 'Existe alguma informação conflitante, por favor verifique os dados.';
+            throw new Error(errorMessage);
+        }
+        if (response.status === 400) {
+            const errorResponse = await response.json();
+            console.log('Erro:', errorResponse.error.message);
+            const errorMessage = errorResponse.error.message || 'Verifique se todos os campos estão preenchidos.';
+            throw new Error(errorMessage);
+        }
         if (!response.ok) {
             const errorResponse = await response.json();
-            const errorMessage = errorResponse.details || 'Erro desconhecido.';
+            const errorMessage = errorResponse.message || 'Erro desconhecido.';
             throw new Error(errorMessage);
         }
 
@@ -68,6 +80,7 @@ export async function createEventOnServer(formData) {
             start,
             end,
             extendedProps: { ...newEvent },
+            response: response.status,
         };
     } catch (error) {
         console.error('Erro ao criar a consulta:', error);
