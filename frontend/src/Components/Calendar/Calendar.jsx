@@ -6,8 +6,8 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import './Calendar.css';
-import { createEventOnServer } from './CreateEvent';
-import AddEventModal from './AddCalendarBuild';
+import { createEventOnServer } from './CreateEvent/CreateEvent';
+import AddEventModal from './CreateEvent/AddCalendarContainer';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
