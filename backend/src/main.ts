@@ -5,7 +5,7 @@ import { getConnectionToken } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
-import { seedUsers } from './data-Import/seed';
+import { seedUsers } from './data-seeding/seed';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
