@@ -1,7 +1,7 @@
 import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
 
-const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit, error }) => {
+const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit, handleDelete, error }) => {
     if (!showModal) return null;
 
     return (
@@ -150,20 +150,30 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
-                    <div className="col-span-2 flex justify-end gap-4">
+                    <div className="col-span-2 flex justify-between gap-4">
                         <button
                             type="button"
-                            onClick={closeModal}
-                            className="px-6 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none"
+                            onClick={handleDelete}
+                            className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none "
+                            id=" justify-end"
                         >
-                            Cancelar
+                            Deletar
                         </button>
-                        <button
-                            type="submit"
-                            className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-                        >
-                            Editar
-                        </button>
+                        <div className="flex gap-4">
+                            <button
+                                type="button"
+                                onClick={closeModal}
+                                className="px-6 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+                            >
+                                Editar
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -177,6 +187,7 @@ UpdateEventModal.propTypes = {
     formData: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    handleDelete: PropTypes.func.isRequired,
     error: PropTypes.any,
 };
 

@@ -9,8 +9,9 @@ import './Calendar.css';
 import PropTypes from 'prop-types';
 import { createEventOnServer } from './CreateEvent/CreateEvent';
 import AddEventModal from './CreateEvent/AddCalendarContainer';
-import { UpdateEventOnServer } from './EditEvent/EditEvent';
-import UpdateEventModal from './EditEvent/EditCalendarContainer';
+import { UpdateEventOnServer } from './OptionsEvent/OptionsEvent';
+import UpdateEventModal from './OptionsEvent/optionsCalendarContainer';
+import { DeleteEventOnServer } from './OptionsEvent/OptionsEvent';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
@@ -188,6 +189,19 @@ const Calendar = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        try {
+            const deleted = await DeleteEventOnServer(formData._id);
+            setEventsData((prev) => prev.filter((evt) => evt.extendedProps._id !== formData._id));
+            console.log('Consulta deletada:', deleted);
+            closeModal();
+        } catch (error) {
+            console.error('Algum erro ocorreu ao tentar deletar a consulta:', error);
+            setError(error.message);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -283,6 +297,7 @@ const Calendar = () => {
                 formData={formData}
                 handleChange={handleChange}
                 handleSubmit={handleUpdate}
+                handleDelete={handleDelete}
                 error={error}
             />
         </div>

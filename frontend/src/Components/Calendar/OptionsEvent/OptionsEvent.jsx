@@ -34,3 +34,27 @@ export async function UpdateEventOnServer(_id, key_values) {
         throw new Error('Erro de rede.');
     }
 }
+
+export async function DeleteEventOnServer(_id) {
+    try {
+        const response = await fetch(`http://localhost:3000/consultas/${_id}`, {
+            method: 'DELETE',
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Erro ao deletar eventos:', response.status, errorText);
+            throw new Error(`Erro ao deletar evento: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+
+        console.log('Evento deletado:', data);
+
+        return data;
+    } catch (error) {
+        console.error('Erro ao deletar a consulta', error);
+        throw new Error('Erro ao deletar a consulta');
+    }
+}
