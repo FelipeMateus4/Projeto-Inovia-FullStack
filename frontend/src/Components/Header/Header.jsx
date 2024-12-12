@@ -16,6 +16,10 @@ const Navigation = () => {
 
     const toggleAuth = () => {
         if (!isAuth.isAuthenticated) {
+            fetch('http://localhost:3000/auth/logout', {
+                method: 'POST',
+                credentials: 'include',
+            });
             dispatch(clearAuthData());
         }
         navigate('/auth');
