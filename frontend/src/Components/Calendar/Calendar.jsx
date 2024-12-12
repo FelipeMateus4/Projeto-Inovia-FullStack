@@ -13,6 +13,8 @@ import { UpdateEventOnServer } from './OptionsEvent/OptionsEvent';
 import UpdateEventModal from './OptionsEvent/optionsCalendarContainer';
 import { DeleteEventOnServer } from './OptionsEvent/OptionsEvent';
 import { GetUserEventsFromServer } from './OptionsEvent/OptionsEvent';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
@@ -196,6 +198,7 @@ const Calendar = () => {
             const deleted = await DeleteEventOnServer(formData._id);
             setEventsData((prev) => prev.filter((evt) => evt.extendedProps._id !== formData._id));
             console.log('Consulta deletada:', deleted);
+            toast.success('Evento deletado com sucesso!');
             closeModal();
         } catch (error) {
             console.error('Algum erro ocorreu ao tentar deletar a consulta:', error);
@@ -209,6 +212,7 @@ const Calendar = () => {
             const eventObj = await createEventOnServer(formData);
             setEventsData((prev) => [...prev, eventObj]);
             console.log('Evento criado:', eventObj);
+            toast.success('Evento criado com sucesso!');
             closeModal();
         } catch (error) {
             console.error('Erro ao criar evento:', error);
@@ -238,6 +242,7 @@ const Calendar = () => {
                 prev.map((evt) => (evt.extendedProps._id === updatedEvent._id ? { ...evt, ...updatedEvent } : evt))
             );
             console.log('Evento atualizado:', updatedEvent);
+            toast.success('Evento atualizado com sucesso!');
             closeModal();
         } catch (error) {
             console.error('Erro ao atualizar evento:', error);
@@ -303,6 +308,7 @@ const Calendar = () => {
                 handlegetUserEvents={GetUserEventsFromServer}
                 error={error}
             />
+            <ToastContainer position="top-center" />
         </div>
     );
 };
