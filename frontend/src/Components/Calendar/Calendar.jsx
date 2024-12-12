@@ -255,3 +255,4 @@ const Calendar = () => {
         </div>
     );
 };
+export default Calendar;
