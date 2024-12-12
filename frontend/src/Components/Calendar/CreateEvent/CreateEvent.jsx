@@ -80,7 +80,6 @@ export async function createEventOnServer(formData) {
             start,
             end,
             extendedProps: { ...newEvent },
-            response: response.status,
         };
     } catch (error) {
         console.error('Erro ao criar a consulta:', error);

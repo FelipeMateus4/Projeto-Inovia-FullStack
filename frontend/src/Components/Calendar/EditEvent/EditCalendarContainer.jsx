@@ -1,3 +1,4 @@
+import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
 
 const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit, error }) => {
@@ -30,8 +31,8 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Data:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99/99/9999"
                             name="displayDate"
                             value={formData.displayDate}
                             onChange={handleChange}
@@ -42,8 +43,8 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Hora Início:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99:99"
                             name="displayStartTime"
                             value={formData.displayStartTime}
                             onChange={handleChange}
@@ -54,8 +55,8 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Hora Término:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99:99"
                             name="displayEndTime"
                             value={formData.displayEndTime}
                             onChange={handleChange}
@@ -88,19 +89,20 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Telefone:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
+                            placeholder="Ex: (36) 12345-6789"
                             required
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Data de Nascimento:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99/99/9999"
                             name="displayBirthDate"
                             value={formData.displayBirthDate}
                             onChange={handleChange}
@@ -111,19 +113,25 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Biotipo Corporal:</label>
-                        <input
-                            type="text"
+                        <select
                             name="biotipoCorporal"
                             value={formData.biotipoCorporal}
                             onChange={handleChange}
                             required
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                        />
+                        >
+                            <option value="" disabled>
+                                Selecione...
+                            </option>
+                            <option value="Endomorfo">Endomorfo</option>
+                            <option value="Ectomorfo">Ectomorfo</option>
+                            <option value="Mesomorfo">Mesomorfo</option>
+                        </select>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">CPF:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="999.999.999-99"
                             name="cpf"
                             value={formData.cpf}
                             onChange={handleChange}

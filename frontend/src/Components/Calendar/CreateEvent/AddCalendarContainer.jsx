@@ -1,3 +1,4 @@
+import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
 
 const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSubmit, error }) => {
@@ -6,7 +7,7 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-3/4 max-w-4xl p-6">
-                {error && <div className="Error mb-10 flex justify-center">{error}</div>}
+                {error && <div className="Error mb-10 flex justify-center text-red-500">{error}</div>}
                 <div className="flex justify-between items-center border-b pb-4">
                     <h2 className="text-2xl font-bold text-gray-700">Agendar Sessão</h2>
                     <button
@@ -17,6 +18,7 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                     </button>
                 </div>
                 <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mt-4">
+                    {/* Nutricionista */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Nutricionista:</label>
                         <input
@@ -25,13 +27,16 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             value={formData.nameNutri}
                             onChange={handleChange}
                             required
+                            placeholder="Nome do Nutricionista"
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Data */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Data:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99/99/9999"
                             name="date"
                             value={formData.date}
                             onChange={handleChange}
@@ -40,10 +45,12 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Hora de Início */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Hora Início:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99:99"
                             name="startTime"
                             value={formData.startTime}
                             onChange={handleChange}
@@ -52,10 +59,12 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Hora de Término */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Hora Término:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99:99"
                             name="endTime"
                             value={formData.endTime}
                             onChange={handleChange}
@@ -64,6 +73,8 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Nome do Paciente */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Nome do Paciente:</label>
                         <input
@@ -72,9 +83,12 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             value={formData.name}
                             onChange={handleChange}
                             required
+                            placeholder="Nome do Paciente"
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Email */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Email:</label>
                         <input
@@ -83,24 +97,30 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             value={formData.email}
                             onChange={handleChange}
                             required
+                            placeholder="exemplo@email.com"
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Telefone */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Telefone:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
+                            placeholder="Ex: (36) 12345-6789"
                             required
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Data de Nascimento */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Data de Nascimento:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="99/99/9999"
                             name="Birthdate"
                             value={formData.Birthdate}
                             onChange={handleChange}
@@ -109,28 +129,41 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Biotipo Corporal */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">Biotipo Corporal:</label>
-                        <input
-                            type="text"
+                        <select
                             name="biotipoCorporal"
                             value={formData.biotipoCorporal}
                             onChange={handleChange}
                             required
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                        />
+                        >
+                            <option value="" disabled>
+                                Selecione...
+                            </option>
+                            <option value="Endomorfo">Endomorfo</option>
+                            <option value="Ectomorfo">Ectomorfo</option>
+                            <option value="Mesomorfo">Mesomorfo</option>
+                        </select>
                     </div>
+
+                    {/* CPF */}
                     <div className="flex flex-col">
                         <label className="text-gray-600 font-medium mb-1">CPF:</label>
-                        <input
-                            type="text"
+                        <InputMask
+                            mask="999.999.999-99"
                             name="cpf"
                             value={formData.cpf}
                             onChange={handleChange}
+                            placeholder="000.000.000-00"
                             required
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Recorrência */}
                     <div className="flex flex-col col-span-2">
                         <label className="text-gray-600 font-medium mb-1">Recorrência (em dias):</label>
                         <input
@@ -142,6 +175,8 @@ const AddEventModal = ({ showModal, closeModal, formData, handleChange, handleSu
                             className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                         />
                     </div>
+
+                    {/* Botões */}
                     <div className="col-span-2 flex justify-end gap-4">
                         <button
                             type="button"

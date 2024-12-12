@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { createEventOnServer } from './CreateEvent/CreateEvent';
 import AddEventModal from './CreateEvent/AddCalendarContainer';
 import { UpdateEventOnServer } from './EditEvent/EditEvent';
-import UpdateEventModal from './EditEvent/EditCalendarHtml';
+import UpdateEventModal from './EditEvent/EditCalendarContainer';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
@@ -217,7 +217,7 @@ const Calendar = () => {
             formDataCopy.endTime = formData.displayEndTime;
             formDataCopy.Birthdate = formData.displayBirthDate;
 
-            console.log('Dados enviados para atualizaçãoaaaaaaa:', formDataCopy);
+            console.log('Dados enviados para atualização:', formDataCopy);
             const updatedEvent = await UpdateEventOnServer(formDataCopy._id, formDataCopy);
             setEventsData((prev) =>
                 prev.map((evt) => (evt.extendedProps._id === updatedEvent._id ? { ...evt, ...updatedEvent } : evt))
