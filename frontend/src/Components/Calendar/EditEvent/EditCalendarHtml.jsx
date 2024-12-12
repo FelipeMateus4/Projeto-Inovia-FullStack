@@ -32,8 +32,8 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                         <label className="text-gray-600 font-medium mb-1">Data:</label>
                         <input
                             type="text"
-                            name="date"
-                            value={formData.date}
+                            name="displayDate"
+                            value={formData.displayDate}
                             onChange={handleChange}
                             placeholder="Ex: 13/12/2024"
                             required
@@ -44,8 +44,8 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                         <label className="text-gray-600 font-medium mb-1">Hora Início:</label>
                         <input
                             type="text"
-                            name="startTime"
-                            value={formData.startTime}
+                            name="displayStartTime"
+                            value={formData.displayStartTime}
                             onChange={handleChange}
                             placeholder="Ex: 10:13"
                             required
@@ -56,8 +56,8 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                         <label className="text-gray-600 font-medium mb-1">Hora Término:</label>
                         <input
                             type="text"
-                            name="endTime"
-                            value={formData.endTime}
+                            name="displayEndTime"
+                            value={formData.displayEndTime}
                             onChange={handleChange}
                             placeholder="Ex: 21:20"
                             required
@@ -101,8 +101,8 @@ const UpdateEventModal = ({ showModal, closeModal, formData, handleChange, handl
                         <label className="text-gray-600 font-medium mb-1">Data de Nascimento:</label>
                         <input
                             type="text"
-                            name="Birthdate"
-                            value={formData.Birthdate}
+                            name="displayBirthDate"
+                            value={formData.displayBirthDate}
                             onChange={handleChange}
                             placeholder="DD/MM/YYYY"
                             required

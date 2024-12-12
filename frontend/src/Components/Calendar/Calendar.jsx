@@ -6,6 +6,7 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import './Calendar.css';
+import PropTypes from 'prop-types';
 import { createEventOnServer } from './CreateEvent/CreateEvent';
 import AddEventModal from './CreateEvent/AddCalendarContainer';
 import { UpdateEventOnServer } from './EditEvent/EditEvent';
@@ -30,6 +31,10 @@ const Calendar = () => {
         cpf: '',
         recorrenceDays: '',
         _id: '',
+        displayDate: '',
+        displayStartTime: '',
+        displayEndTime: '',
+        displayBirthDate: '',
     });
 
     useEffect(() => {
@@ -100,42 +105,58 @@ const Calendar = () => {
             cpf: '',
             recorrenceDays: '',
             _id: '',
+            displayDate: '',
+            displayStartTime: '',
+            displayEndTime: '',
+            displayBirthDate: '',
         });
     };
 
     const openUpdateModal = (event) => {
         setShowUpdateModal(true);
         setShowAddModal(false);
+
         const props = event.extendedProps;
 
-        const dateObj = new Date(props.date);
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const year = dateObj.getFullYear();
-        const formattedDate = `${day}/${month}/${year}`;
+        // Normalizar datas e horários para UTC
+        const normalizeToUTC = (dateString) => new Date(dateString).toISOString();
 
-        const startObj = new Date(props.startTime);
-        const startHour = String(startObj.getHours()).padStart(2, '0');
-        const startMinute = String(startObj.getMinutes()).padStart(2, '0');
-        const formattedStartTime = `${startHour}:${startMinute}`;
+        const formattedDate = normalizeToUTC(props.date);
+        const formattedStartTime = normalizeToUTC(props.startTime);
+        const formattedEndTime = normalizeToUTC(props.endTime);
+        const formattedBirthDate = normalizeToUTC(props.Birthdate);
 
-        const endObj = new Date(props.endTime);
-        const endHour = String(endObj.getHours()).padStart(2, '0');
-        const endMinute = String(endObj.getMinutes()).padStart(2, '0');
-        const formattedEndTime = `${endHour}:${endMinute}`;
+        // Transformar datas e horários para formato de exibição
+        const formatForDisplay = (dateString) => {
+            const dateObj = new Date(dateString);
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const year = dateObj.getFullYear();
+            const hours = String(dateObj.getHours()).padStart(2, '0');
+            const minutes = String(dateObj.getMinutes()).padStart(2, '0');
 
-        const birthObj = new Date(props.Birthdate);
-        const birthDay = String(birthObj.getDate()).padStart(2, '0');
-        const birthMonth = String(birthObj.getMonth() + 1).padStart(2, '0');
-        const birthYear = birthObj.getFullYear();
-        const formattedBirthDate = `${birthDay}/${birthMonth}/${birthYear}`;
+            return {
+                date: `${day}/${month}/${year}`,
+                time: `${hours}:${minutes}`,
+            };
+        };
 
+        const displayDate = formatForDisplay(formattedDate).date;
+        const displayStartTime = formatForDisplay(formattedStartTime).time;
+        const displayEndTime = formatForDisplay(formattedEndTime).time;
+        const displayBirthDate = formatForDisplay(formattedBirthDate).date;
+
+        // Atualizar o estado com os dados normalizados e de exibição
         setFormData({
             ...props,
-            date: formattedDate,
-            startTime: formattedStartTime,
-            endTime: formattedEndTime,
-            Birthdate: formattedBirthDate,
+            date: formattedDate, // UTC
+            startTime: formattedStartTime, // UTC
+            endTime: formattedEndTime, // UTC
+            Birthdate: formattedBirthDate, // UTC
+            displayDate: displayDate,
+            displayStartTime: displayStartTime,
+            displayEndTime: displayEndTime,
+            displayBirthDate: displayBirthDate,
         });
     };
 
@@ -155,6 +176,10 @@ const Calendar = () => {
             cpf: '',
             recorrenceDays: '',
             _id: '',
+            displayDate: '',
+            displayStartTime: '',
+            displayEndTime: '',
+            displayBirthDate: '',
         });
     };
 
@@ -180,13 +205,25 @@ const Calendar = () => {
         e.preventDefault();
         try {
             const formDataCopy = { ...formData };
+            console.log('este é o formdata', formData);
+
+            if ('displayDate' in formDataCopy) delete formDataCopy.displayDate;
+            if ('displayStartTime' in formDataCopy) delete formDataCopy.displayStartTime;
+            if ('displayEndTime' in formDataCopy) delete formDataCopy.displayEndTime;
+            if ('displayBirthDate' in formDataCopy) delete formDataCopy.displayBirthDate;
+
+            formDataCopy.date = formData.displayDate;
+            formDataCopy.startTime = formData.displayStartTime;
+            formDataCopy.endTime = formData.displayEndTime;
 
             if (formDataCopy.Birthdate) {
                 const [day, month, year] = formDataCopy.Birthdate.split('/');
                 formDataCopy.Birthdate = `${year}-${month}-${day}`;
+                formDataCopy.Birthdate = new Date(formDataCopy.Birthdate);
             }
 
-            const updatedEvent = await UpdateEventOnServer(formData._id, formDataCopy);
+            console.log('Dados enviados para atualizaçãoaaaaaaa:', formDataCopy);
+            const updatedEvent = await UpdateEventOnServer(formDataCopy._id, formDataCopy);
             setEventsData((prev) =>
                 prev.map((evt) => (evt.extendedProps._id === updatedEvent._id ? { ...evt, ...updatedEvent } : evt))
             );
@@ -255,4 +292,20 @@ const Calendar = () => {
         </div>
     );
 };
+
+Calendar.propTypes = {
+    startTime: PropTypes.string,
+    endTime: PropTypes.string,
+    date: PropTypes.string,
+    Birthdate: PropTypes.string,
+    nameNutri: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    biotipoCorporal: PropTypes.string,
+    cpf: PropTypes.string,
+    recorrenceDays: PropTypes.string,
+    _id: PropTypes.string,
+};
+
 export default Calendar;
