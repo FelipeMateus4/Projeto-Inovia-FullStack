@@ -6,6 +6,7 @@ import { AllExceptionsFilter } from 'src/shared/exceptions.filter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/modules/auth/auth.module';
+import { UserModule } from 'src/modules/users/user.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from 'src/modules/auth/auth.module';
         ScheduleModule.forRoot(),
         AuthModule,
         ConfigModule.forRoot({ isGlobal: true }),
+        UserModule,
     ],
     controllers: [],
     providers: [
