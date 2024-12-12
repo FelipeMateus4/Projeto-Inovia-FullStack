@@ -13,10 +13,10 @@ import UpdateEventModal from './EditEvent/EditCalendarHtml';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
-    const [showModal, setShowModal] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [error, setError] = useState(null);
     const [eventsData, setEventsData] = useState([]);
-    const [selectedEvent, setSelectedEvent] = useState(null);
     const [formData, setFormData] = useState({
         nameNutri: '',
         date: '',
@@ -84,10 +84,64 @@ const Calendar = () => {
         fetchEvents();
     }, []);
 
-    const openModal = () => setShowModal(true);
+    const openAddModal = () => {
+        setShowAddModal(true);
+        setShowUpdateModal(false);
+        setFormData({
+            nameNutri: '',
+            date: '',
+            startTime: '',
+            endTime: '',
+            name: '',
+            email: '',
+            phone: '',
+            Birthdate: '',
+            biotipoCorporal: '',
+            cpf: '',
+            recorrenceDays: '',
+            _id: '',
+        });
+    };
+
+    const openUpdateModal = (event) => {
+        setShowUpdateModal(true);
+        setShowAddModal(false);
+        const props = event.extendedProps;
+
+        const dateObj = new Date(props.date);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+
+        const startObj = new Date(props.startTime);
+        const startHour = String(startObj.getHours()).padStart(2, '0');
+        const startMinute = String(startObj.getMinutes()).padStart(2, '0');
+        const formattedStartTime = `${startHour}:${startMinute}`;
+
+        const endObj = new Date(props.endTime);
+        const endHour = String(endObj.getHours()).padStart(2, '0');
+        const endMinute = String(endObj.getMinutes()).padStart(2, '0');
+        const formattedEndTime = `${endHour}:${endMinute}`;
+
+        const birthObj = new Date(props.Birthdate);
+        const birthDay = String(birthObj.getDate()).padStart(2, '0');
+        const birthMonth = String(birthObj.getMonth() + 1).padStart(2, '0');
+        const birthYear = birthObj.getFullYear();
+        const formattedBirthDate = `${birthDay}/${birthMonth}/${birthYear}`;
+
+        setFormData({
+            ...props,
+            date: formattedDate,
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
+            Birthdate: formattedBirthDate,
+        });
+    };
 
     const closeModal = () => {
-        setShowModal(false);
+        setShowAddModal(false);
+        setShowUpdateModal(false);
         setFormData({
             nameNutri: '',
             date: '',
@@ -109,80 +163,6 @@ const Calendar = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleUpdate = async (e) => {
-        e.preventDefault();
-        try {
-            const formDataCopy = { ...formData };
-
-            if (formDataCopy.Birthdate) {
-                const [day, month, year] = formDataCopy.Birthdate.split('/');
-                formDataCopy.Birthdate = `${year}-${month}-${day}`;
-            }
-            const updatedEvent = await UpdateEventOnServer(formDataCopy._id, formDataCopy);
-
-            const updatedEvents = eventsData.map((evt) =>
-                evt.extendedProps._id === updatedEvent._id ? { ...evt, ...updatedEvent } : evt
-            );
-            setEventsData(updatedEvents);
-            console.log('Evento atualizado:', updatedEvent);
-
-            if (calendarRef.current) {
-                calendarRef.current.getApi().refetchEvents();
-            }
-
-            closeModal();
-        } catch (error) {
-            console.error('Erro ao atualizar evento:', error);
-            setError(error.message);
-        }
-    };
-
-    const handleEventClick = (clickInfo) => {
-        console.log('Evento clicado:', clickInfo.event);
-
-        const props = clickInfo.event.extendedProps;
-
-        // Converter data (props.date) para DD/MM/YYYY
-        const dateObj = new Date(props.date);
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const year = dateObj.getFullYear();
-        const formattedDate = `${day}/${month}/${year}`;
-
-        // Converter hora de início (props.startTime) para HH:mm
-        const startObj = new Date(props.startTime);
-        const startHour = String(startObj.getHours()).padStart(2, '0');
-        const startMinute = String(startObj.getMinutes()).padStart(2, '0');
-        const formattedStartTime = `${startHour}:${startMinute}`;
-
-        // Converter hora de término (props.endTime) para HH:mm
-        const endObj = new Date(props.endTime);
-        const endHour = String(endObj.getHours()).padStart(2, '0');
-        const endMinute = String(endObj.getMinutes()).padStart(2, '0');
-        const formattedEndTime = `${endHour}:${endMinute}`;
-
-        // Converter data de nascimento (props.Birthdate) para DD/MM/YYYY
-        const birthObj = new Date(props.Birthdate);
-        const birthDay = String(birthObj.getDate()).padStart(2, '0');
-        const birthMonth = String(birthObj.getMonth() + 1).padStart(2, '0');
-        const birthYear = birthObj.getFullYear();
-        const formattedBirthDate = `${birthDay}/${birthMonth}/${birthYear}`;
-
-        // Montar o novo formData com as datas formatadas
-        const updatedFormData = {
-            ...props,
-            date: formattedDate,
-            startTime: formattedStartTime,
-            endTime: formattedEndTime,
-            Birthdate: formattedBirthDate,
-        };
-
-        console.log('Evento selecionado para edição:', updatedFormData);
-        setSelectedEvent(clickInfo.event);
-        setFormData(updatedFormData);
-        openModal();
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -192,6 +172,28 @@ const Calendar = () => {
             closeModal();
         } catch (error) {
             console.error('Erro ao criar evento:', error);
+            setError(error.message);
+        }
+    };
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        try {
+            const formDataCopy = { ...formData };
+
+            if (formDataCopy.Birthdate) {
+                const [day, month, year] = formDataCopy.Birthdate.split('/');
+                formDataCopy.Birthdate = `${year}-${month}-${day}`;
+            }
+
+            const updatedEvent = await UpdateEventOnServer(formData._id, formDataCopy);
+            setEventsData((prev) =>
+                prev.map((evt) => (evt.extendedProps._id === updatedEvent._id ? { ...evt, ...updatedEvent } : evt))
+            );
+            console.log('Evento atualizado:', updatedEvent);
+            closeModal();
+        } catch (error) {
+            console.error('Erro ao atualizar evento:', error);
             setError(error.message);
         }
     };
@@ -222,7 +224,7 @@ const Calendar = () => {
                 customButtons={{
                     customButton: {
                         text: 'Agendar',
-                        click: () => openModal(),
+                        click: () => openAddModal(),
                     },
                 }}
                 expandRows={true}
@@ -231,11 +233,11 @@ const Calendar = () => {
                 events={eventsData}
                 contentHeight="auto"
                 height="100%"
-                eventClick={handleEventClick}
+                eventClick={(clickInfo) => openUpdateModal(clickInfo.event)}
             />
 
             <AddEventModal
-                showModal={showModal}
+                showModal={showAddModal}
                 closeModal={closeModal}
                 formData={formData}
                 handleChange={handleChange}
@@ -243,7 +245,7 @@ const Calendar = () => {
                 error={error}
             />
             <UpdateEventModal
-                showModal={showModal}
+                showModal={showUpdateModal}
                 closeModal={closeModal}
                 formData={formData}
                 handleChange={handleChange}
@@ -253,5 +255,3 @@ const Calendar = () => {
         </div>
     );
 };
-
-export default Calendar;
