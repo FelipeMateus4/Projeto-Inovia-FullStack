@@ -12,6 +12,7 @@ import AddEventModal from './CreateEvent/AddCalendarContainer';
 import { UpdateEventOnServer } from './OptionsEvent/OptionsEvent';
 import UpdateEventModal from './OptionsEvent/optionsCalendarContainer';
 import { DeleteEventOnServer } from './OptionsEvent/OptionsEvent';
+import { GetUserEventsFromServer } from './OptionsEvent/OptionsEvent';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
@@ -289,6 +290,7 @@ const Calendar = () => {
                 formData={formData}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
+                handlegetUserEvents={GetUserEventsFromServer}
                 error={error}
             />
             <UpdateEventModal
@@ -298,6 +300,7 @@ const Calendar = () => {
                 handleChange={handleChange}
                 handleSubmit={handleUpdate}
                 handleDelete={handleDelete}
+                handlegetUserEvents={GetUserEventsFromServer}
                 error={error}
             />
         </div>

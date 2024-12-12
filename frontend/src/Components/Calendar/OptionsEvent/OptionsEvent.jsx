@@ -58,3 +58,25 @@ export async function DeleteEventOnServer(_id) {
         throw new Error('Erro ao deletar a consulta');
     }
 }
+
+export async function GetUserEventsFromServer() {
+    try {
+        const response = await fetch(`http://localhost:3000/users`, {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Erro ao buscar usuários:', response.status, errorText);
+            throw new Error(`Erro ao buscar usuários: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error('Erro de rede:', error);
+        throw new Error('Erro desconhecido ao buscar usuários.', error);
+    }
+}
