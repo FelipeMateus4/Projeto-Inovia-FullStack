@@ -54,6 +54,10 @@ export class ConsultaService {
             keys.endTime = transformTime(keys.endTime);
             console.log('Transformed End Time:', keys.endTime);
         }
+        if (keys.Birthdate) {
+            keys.Birthdate = transformDate(keys.Birthdate);
+            console.log('Transformed Birthdate:', keys.Birthdate);
+        }
 
         console.log('camda de servicoes2');
         const consulta = await this.consultaRepository.findConsultaById(id);

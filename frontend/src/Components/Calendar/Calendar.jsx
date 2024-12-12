@@ -215,12 +215,7 @@ const Calendar = () => {
             formDataCopy.date = formData.displayDate;
             formDataCopy.startTime = formData.displayStartTime;
             formDataCopy.endTime = formData.displayEndTime;
-
-            if (formDataCopy.Birthdate) {
-                const [day, month, year] = formDataCopy.Birthdate.split('/');
-                formDataCopy.Birthdate = `${year}-${month}-${day}`;
-                formDataCopy.Birthdate = new Date(formDataCopy.Birthdate);
-            }
+            formDataCopy.Birthdate = formData.displayBirthDate;
 
             console.log('Dados enviados para atualizaçãoaaaaaaa:', formDataCopy);
             const updatedEvent = await UpdateEventOnServer(formDataCopy._id, formDataCopy);
