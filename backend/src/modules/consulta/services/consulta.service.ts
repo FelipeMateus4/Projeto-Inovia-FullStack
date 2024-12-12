@@ -43,23 +43,19 @@ export class ConsultaService {
         console.log('camda de servicoes');
         if (keys.date) {
             keys.date = transformDate(keys.date);
-            console.log('Transformed Date:', keys.date);
         }
         if (keys.startTime) {
             keys.startTime = transformTime(keys.startTime);
-            console.log('Transformed Start Time:', keys.startTime);
         }
 
         if (keys.endTime) {
             keys.endTime = transformTime(keys.endTime);
-            console.log('Transformed End Time:', keys.endTime);
         }
         if (keys.Birthdate) {
             keys.Birthdate = transformDate(keys.Birthdate);
-            console.log('Transformed Birthdate:', keys.Birthdate);
         }
 
-        console.log('camda de servicoes2');
+        console.log('data autalizada', keys.date);
         const consulta = await this.consultaRepository.findConsultaById(id);
 
         const date = keys.date || consulta.date;

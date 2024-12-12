@@ -31,7 +31,7 @@ export class consultaRepository {
         startTime: Date,
         endTime: Date,
         date: Date,
-        excludeId?: string // Adicione um parâmetro opcional para passar o ID a ser ignorado
+        excludeId?: string // Adiciona um parâmetro opcional para passar o ID a ser ignorado
     ): Promise<boolean> {
         const conflict = await this.consultaModel.findOne({
             _id: { $ne: excludeId }, // Exclui o documento com o ID fornecido
@@ -51,9 +51,9 @@ export class consultaRepository {
     }
 
     async findConsultaById(id: string): Promise<ConsultaDocument> {
-        console.log('camda de repositorio');
         return await this.consultaModel.findById(id);
     }
+
     async findAllConsultas(): Promise<ConsultaDocument[]> {
         return await this.consultaModel.find();
     }

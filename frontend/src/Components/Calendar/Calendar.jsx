@@ -56,17 +56,17 @@ const Calendar = () => {
 
                 const mappedEvents = data.map((evt) => {
                     const mainDate = new Date(evt.date);
-                    const year = mainDate.getFullYear();
-                    const month = String(mainDate.getMonth() + 1).padStart(2, '0');
-                    const day = String(mainDate.getDate()).padStart(2, '0');
+                    const year = mainDate.getUTCFullYear();
+                    const month = String(mainDate.getUTCMonth() + 1).padStart(2, '0');
+                    const day = String(mainDate.getUTCDate()).padStart(2, '0');
 
                     const startDate = new Date(evt.startTime);
-                    const startHours = String(startDate.getHours()).padStart(2, '0');
-                    const startMinutes = String(startDate.getMinutes()).padStart(2, '0');
+                    const startHours = String(startDate.getUTCHours()).padStart(2, '0');
+                    const startMinutes = String(startDate.getUTCMinutes()).padStart(2, '0');
 
                     const endDate = new Date(evt.endTime);
-                    const endHours = String(endDate.getHours()).padStart(2, '0');
-                    const endMinutes = String(endDate.getMinutes()).padStart(2, '0');
+                    const endHours = String(endDate.getUTCHours()).padStart(2, '0');
+                    const endMinutes = String(endDate.getUTCMinutes()).padStart(2, '0');
 
                     const start = `${year}-${month}-${day}T${startHours}:${startMinutes}`;
                     const end = `${year}-${month}-${day}T${endHours}:${endMinutes}`;
@@ -118,22 +118,22 @@ const Calendar = () => {
 
         const props = event.extendedProps;
 
-        // Normalizar datas e horários para UTC
-        const normalizeToUTC = (dateString) => new Date(dateString).toISOString();
-
-        const formattedDate = normalizeToUTC(props.date);
-        const formattedStartTime = normalizeToUTC(props.startTime);
-        const formattedEndTime = normalizeToUTC(props.endTime);
-        const formattedBirthDate = normalizeToUTC(props.Birthdate);
+        const formattedDate = props.date;
+        const formattedStartTime = props.startTime;
+        const formattedEndTime = props.endTime;
+        const formattedBirthDate = props.Birthdate;
 
         // Transformar datas e horários para formato de exibição
         const formatForDisplay = (dateString) => {
+            // Garantir que o dateString seja tratado como UTC
             const dateObj = new Date(dateString);
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const year = dateObj.getFullYear();
-            const hours = String(dateObj.getHours()).padStart(2, '0');
-            const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+            // Usar métodos UTC para evitar deslocamentos de fuso horário
+            const day = String(dateObj.getUTCDate()).padStart(2, '0'); // Dia UTC
+            const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0'); // Mês UTC
+            const year = dateObj.getUTCFullYear(); // Ano UTC
+            const hours = String(dateObj.getUTCHours()).padStart(2, '0'); // Horas UTC
+            const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0'); // Minutos UTC
 
             return {
                 date: `${day}/${month}/${year}`,
@@ -263,6 +263,7 @@ const Calendar = () => {
                 editable={true}
                 selectable={true}
                 events={eventsData}
+                timeZone="UTC"
                 contentHeight="auto"
                 height="100%"
                 eventClick={(clickInfo) => openUpdateModal(clickInfo.event)}
