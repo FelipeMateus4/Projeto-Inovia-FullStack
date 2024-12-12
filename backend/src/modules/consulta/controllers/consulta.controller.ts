@@ -88,6 +88,7 @@ export class ConsultaController {
     @ApiResponse({ status: 404, description: 'Consulta não encontrada.' })
     async updateConsulta(@Param('id') id: string, @Body() keys: any): Promise<CreateConsultaResponse> {
         const data = await this.consultaService.updateConsulta(id, keys);
+        console.log(data);
 
         if (!data) {
             throw { message: 'Consulta não encontrada para ser atualizada!' };

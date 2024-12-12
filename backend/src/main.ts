@@ -29,9 +29,9 @@ async function bootstrap() {
     // Configuração do Swagger
     const config = new DocumentBuilder()
         .setTitle('API Documentation')
-        .setDescription('Descrição da sua API')
+        .setDescription('Esta API é para o projeto Inovia FullStack, desenvolvido por: Felipe Mateus')
         .setVersion('1.0')
-        .addBearerAuth() // Se usar autenticação com JWT
+        .addBearerAuth()
         .build();
 
     const document = SwaggerModule.createDocument(app, config);

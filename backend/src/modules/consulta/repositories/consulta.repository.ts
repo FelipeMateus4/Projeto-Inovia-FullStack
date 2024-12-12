@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateConsultaDto } from '../dto/create-consulta.dto';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class consultaRepository {
@@ -17,7 +18,10 @@ export class consultaRepository {
     }
 
     async updateConsulta(id: string, keys: any): Promise<ConsultaDocument> {
-        return await this.consultaModel.findByIdAndUpdate(id, { $set: keys }, { new: true });
+        const objectId = new mongoose.Types.ObjectId(id);
+        console.log(await this.consultaModel.findByIdAndUpdate(objectId, { $set: keys }, { new: true }));
+        console.log('update');
+        return await this.consultaModel.findByIdAndUpdate(objectId, { $set: keys }, { new: true });
     }
     async deleteConsulta(id: string): Promise<ConsultaDocument> {
         return await this.consultaModel.findByIdAndDelete(id);
@@ -47,6 +51,7 @@ export class consultaRepository {
     }
 
     async findConsultaById(id: string): Promise<ConsultaDocument> {
+        console.log('camda de repositorio');
         return await this.consultaModel.findById(id);
     }
     async findAllConsultas(): Promise<ConsultaDocument[]> {

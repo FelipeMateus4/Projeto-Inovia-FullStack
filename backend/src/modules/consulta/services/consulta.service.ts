@@ -40,6 +40,7 @@ export class ConsultaService {
     }
 
     async updateConsulta(id: string, keys: any): Promise<ConsultaDocument> {
+        console.log('camda de servicoes');
         if (keys.date) {
             keys.date = transformDate(keys.date);
             console.log('Transformed Date:', keys.date);
@@ -54,6 +55,7 @@ export class ConsultaService {
             console.log('Transformed End Time:', keys.endTime);
         }
 
+        console.log('camda de servicoes2');
         const consulta = await this.consultaRepository.findConsultaById(id);
 
         const date = keys.date || consulta.date;

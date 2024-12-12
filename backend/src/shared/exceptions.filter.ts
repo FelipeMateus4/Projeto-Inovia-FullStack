@@ -53,7 +53,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
             name: exception.name,
             error: 'Erro inesperado no servidor.',
-            details: exception.message,
+            message: exception.message,
             timestamp: new Date().toISOString(),
             path: request.url,
         });
