@@ -34,7 +34,7 @@ export class consultaRepository {
         excludeId?: string // Adiciona um parâmetro opcional para passar o ID a ser ignorado
     ): Promise<boolean> {
         const conflict = await this.consultaModel.findOne({
-            _id: { $ne: excludeId }, // Exclui o documento com o ID fornecido
+            _id: { $ne: excludeId }, // Exclui o documento com o ID fornecido para ele nao conflitar com ele mesmo
             nameNutri,
             date,
             $or: [
@@ -43,6 +43,7 @@ export class consultaRepository {
                 { startTime: { $lte: startTime }, endTime: { $gte: endTime } },
             ],
         });
+        console.log(conflict);
         return !!conflict; // Converte o resultado truthy/falsy para true/false
     }
 

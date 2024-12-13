@@ -15,7 +15,7 @@ export class CreateConsultaDto {
     @Transform(({ value }) => {
         const [day, month, year] = value.split('/');
         const date = new Date(`${year}-${month}-${day}`);
-        date.setHours(0, 0, 0, 0);
+        date.setUTCHours(0, 0, 0, 0);
         return date;
     })
     date: Date;

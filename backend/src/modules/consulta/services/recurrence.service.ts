@@ -13,11 +13,13 @@ export class RecurrenceService {
         this.logger.log('Iniciando verificação de consultas recorrentes...');
 
         const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1); // Subtrai um dia
-        yesterday.setHours(0, 0, 0, 0); // Normaliza para comparar apenas a data
+        yesterday.setUTCDate(yesterday.getUTCDate() - 2); // Define a data de ontem, -2 por causa da normalizacao de fuso horario
+        yesterday.setUTCHours(0, 0, 0, 0); // Define para meia-noite UTC
 
+        console.log('ontem', yesterday);
         // Buscar consultas com recorrência configurada e a data de ontem
         const consultas = await this.consultaRepository.findConsultasByDate(yesterday);
+        console.log(consultas);
 
         for (const consulta of consultas) {
             // Verificar se a consulta possui recorrência configurada

@@ -267,7 +267,7 @@ const Calendar = () => {
                 headerToolbar={{
                     left: 'prev,next today statistics',
                     center: 'title',
-                    right: 'dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek customButton ',
+                    right: 'dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek customButton',
                 }}
                 customButtons={{
                     customButton: {
@@ -283,7 +283,6 @@ const Calendar = () => {
                 editable={true}
                 selectable={true}
                 events={eventsData}
-                timeZone="UTC"
                 contentHeight="auto"
                 height="100%"
                 eventClick={(clickInfo) => openUpdateModal(clickInfo.event)}
