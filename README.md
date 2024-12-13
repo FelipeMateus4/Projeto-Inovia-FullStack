@@ -26,11 +26,11 @@ JWT_SECRET=sua-chave-secreta
 #### Configuração Alternativa (Local):
 Caso deseje configurar o backend para rodar localmente sem Docker, ajuste o `DATABASE_URL` conforme seu ambiente:
 ```env
-DATABASE_URL=mongodb://localhost:27018/ConsultorioNutricionista
+DATABASE_URL=mongodb://localhost:28017/ConsultorioNutricionista
 PORT=3000
 JWT_SECRET=sua-chave-secreta
 ```
-**Nota**: Ao usar Docker, o MongoDB estará acessível internamente via `mongodb:27017`, mas externamente na porta `27018`.
+**Nota**: Ao usar Docker, o MongoDB estará acessível internamente via `mongodb:27017`, mas externamente na porta `28017`.
 
 #### Usando MongoDB Compass:
 Para conectar e visualizar os dados graficamente, utilize o URL:
