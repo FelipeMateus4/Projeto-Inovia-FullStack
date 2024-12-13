@@ -78,7 +78,7 @@ Certifique-se de que o MongoDB está rodando na porta `27018` e conecte-se com o
 - No backend, execute:
   ```bash
   npm install
-  npm run start
+  npm run start:dev
   ```
 - No frontend, execute:
   ```bash
