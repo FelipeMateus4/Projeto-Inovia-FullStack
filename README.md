@@ -46,7 +46,7 @@ VITE_API_URL=http://localhost:3000
 ```
 
 #### Explicação:
-- **VITE_API_URL**: URL do backend que o frontend irá consumir. Com Docker, utilize `http://backend:3000`.
+- **VITE_API_URL**: URL do backend que o frontend irá consumir. Com Docker, utilize também `http://localhost:3000`.
 
 #### Configuração Alternativa (Local):
 Caso não use Docker, ajuste o `VITE_API_URL` para o ambiente do backend local.
