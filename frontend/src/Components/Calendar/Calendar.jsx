@@ -15,6 +15,7 @@ import { DeleteEventOnServer } from './OptionsEvent/OptionsEvent';
 import { GetUserEventsFromServer } from './OptionsEvent/OptionsEvent';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import StatisticsModal from './StaticsContainer';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
@@ -22,6 +23,7 @@ const Calendar = () => {
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [error, setError] = useState(null);
     const [eventsData, setEventsData] = useState([]);
+    const [showStatisticsModal, setShowStatisticsModal] = useState(false);
     const [formData, setFormData] = useState({
         nameNutri: '',
         date: '',
@@ -127,17 +129,13 @@ const Calendar = () => {
         const formattedEndTime = props.endTime;
         const formattedBirthDate = props.Birthdate;
 
-        // Transformar datas e horários para formato de exibição
         const formatForDisplay = (dateString) => {
-            // Garantir que o dateString seja tratado como UTC
             const dateObj = new Date(dateString);
-
-            // Usar métodos UTC para evitar deslocamentos de fuso horário
-            const day = String(dateObj.getUTCDate()).padStart(2, '0'); // Dia UTC
-            const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0'); // Mês UTC
-            const year = dateObj.getUTCFullYear(); // Ano UTC
-            const hours = String(dateObj.getUTCHours()).padStart(2, '0'); // Horas UTC
-            const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0'); // Minutos UTC
+            const day = String(dateObj.getUTCDate()).padStart(2, '0');
+            const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+            const year = dateObj.getUTCFullYear();
+            const hours = String(dateObj.getUTCHours()).padStart(2, '0');
+            const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0');
 
             return {
                 date: `${day}/${month}/${year}`,
@@ -150,13 +148,12 @@ const Calendar = () => {
         const displayEndTime = formatForDisplay(formattedEndTime).time;
         const displayBirthDate = formatForDisplay(formattedBirthDate).date;
 
-        // Atualizar o estado com os dados normalizados e de exibição
         setFormData({
             ...props,
-            date: formattedDate, // UTC
-            startTime: formattedStartTime, // UTC
-            endTime: formattedEndTime, // UTC
-            Birthdate: formattedBirthDate, // UTC
+            date: formattedDate,
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
+            Birthdate: formattedBirthDate,
             displayDate: displayDate,
             displayStartTime: displayStartTime,
             displayEndTime: displayEndTime,
@@ -224,7 +221,6 @@ const Calendar = () => {
         e.preventDefault();
         try {
             const formDataCopy = { ...formData };
-            console.log('este é o formdata', formData);
 
             if ('displayDate' in formDataCopy) delete formDataCopy.displayDate;
             if ('displayStartTime' in formDataCopy) delete formDataCopy.displayStartTime;
@@ -269,14 +265,18 @@ const Calendar = () => {
                 locale={ptBrLocale}
                 initialView="dayGridMonth"
                 headerToolbar={{
-                    left: 'prev,next today',
+                    left: 'prev,next today statistics',
                     center: 'title',
-                    right: 'dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek customButton',
+                    right: 'dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek customButton ',
                 }}
                 customButtons={{
                     customButton: {
                         text: 'Agendar',
                         click: () => openAddModal(),
+                    },
+                    statistics: {
+                        text: 'Estatísticas',
+                        click: () => setShowStatisticsModal(true),
                     },
                 }}
                 expandRows={true}
@@ -308,6 +308,12 @@ const Calendar = () => {
                 handlegetUserEvents={GetUserEventsFromServer}
                 error={error}
             />
+            <StatisticsModal
+                showModal={showStatisticsModal}
+                closeModal={() => setShowStatisticsModal(false)}
+                eventsData={eventsData}
+            />
+
             <ToastContainer position="top-center" />
         </div>
     );
