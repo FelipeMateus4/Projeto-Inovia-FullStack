@@ -42,7 +42,7 @@ mongodb://localhost:27018/ConsultorioNutricionista
 #### Configurar o Arquivo .env:
 No frontend (`frontend/.env`), crie um arquivo com a seguinte variável:
 ```env
-VITE_API_URL=http://backend:3000
+VITE_API_URL=http://localhost:3000
 ```
 
 #### Explicação:
