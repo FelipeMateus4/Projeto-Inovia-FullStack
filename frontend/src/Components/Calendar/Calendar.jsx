@@ -43,56 +43,62 @@ const Calendar = () => {
         displayBirthDate: '',
     });
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/consultas', {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include',
-                });
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/consultas', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+            });
 
-                if (!response.ok) {
-                    console.error('Erro ao buscar eventos:', response.statusText);
-                    return;
-                }
-
-                const data = await response.json();
-                console.log('Consultas obtidas:', data);
-
-                const mappedEvents = data.map((evt) => {
-                    const mainDate = new Date(evt.date);
-                    const year = mainDate.getUTCFullYear();
-                    const month = String(mainDate.getUTCMonth() + 1).padStart(2, '0');
-                    const day = String(mainDate.getUTCDate()).padStart(2, '0');
-
-                    const startDate = new Date(evt.startTime);
-                    const startHours = String(startDate.getUTCHours()).padStart(2, '0');
-                    const startMinutes = String(startDate.getUTCMinutes()).padStart(2, '0');
-
-                    const endDate = new Date(evt.endTime);
-                    const endHours = String(endDate.getUTCHours()).padStart(2, '0');
-                    const endMinutes = String(endDate.getUTCMinutes()).padStart(2, '0');
-
-                    const start = `${year}-${month}-${day}T${startHours}:${startMinutes}`;
-                    const end = `${year}-${month}-${day}T${endHours}:${endMinutes}`;
-
-                    return {
-                        title: `${evt.nameNutri} - ${evt.name}`,
-                        start,
-                        end,
-                        extendedProps: { ...evt },
-                    };
-                });
-
-                console.log('Eventos mapeados:', mappedEvents);
-                setEventsData(mappedEvents);
-            } catch (error) {
-                console.error('Erro de rede:', error);
+            if (!response.ok) {
+                console.error('Erro ao buscar eventos:', response.statusText);
+                return;
             }
-        };
 
+            const data = await response.json();
+            console.log('Consultas obtidas:', data);
+
+            const mappedEvents = data.map((evt) => {
+                const mainDate = new Date(evt.date);
+                const year = mainDate.getUTCFullYear();
+                const month = String(mainDate.getUTCMonth() + 1).padStart(2, '0');
+                const day = String(mainDate.getUTCDate()).padStart(2, '0');
+
+                const startDate = new Date(evt.startTime);
+                const startHours = String(startDate.getUTCHours()).padStart(2, '0');
+                const startMinutes = String(startDate.getUTCMinutes()).padStart(2, '0');
+
+                const endDate = new Date(evt.endTime);
+                const endHours = String(endDate.getUTCHours()).padStart(2, '0');
+                const endMinutes = String(endDate.getUTCMinutes()).padStart(2, '0');
+
+                const start = `${year}-${month}-${day}T${startHours}:${startMinutes}`;
+                const end = `${year}-${month}-${day}T${endHours}:${endMinutes}`;
+
+                return {
+                    title: `${evt.nameNutri} - ${evt.name}`,
+                    start,
+                    end,
+                    extendedProps: { ...evt },
+                };
+            });
+
+            console.log('Eventos mapeados:', mappedEvents);
+            setEventsData(mappedEvents);
+        } catch (error) {
+            console.error('Erro de rede:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchEvents();
+
+        const intervalId = setInterval(() => {
+            fetchEvents();
+        }, 30000);
+
+        return () => clearInterval(intervalId);
     }, []);
 
     const openAddModal = () => {
@@ -192,11 +198,10 @@ const Calendar = () => {
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            const deleted = await DeleteEventOnServer(formData._id);
-            setEventsData((prev) => prev.filter((evt) => evt.extendedProps._id !== formData._id));
-            console.log('Consulta deletada:', deleted);
+            await DeleteEventOnServer(formData._id);
             toast.success('Evento deletado com sucesso!');
             closeModal();
+            await fetchEvents();
         } catch (error) {
             console.error('Algum erro ocorreu ao tentar deletar a consulta:', error);
             setError(error.message);
@@ -206,11 +211,10 @@ const Calendar = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const eventObj = await createEventOnServer(formData);
-            setEventsData((prev) => [...prev, eventObj]);
-            console.log('Evento criado:', eventObj);
+            await createEventOnServer(formData);
             toast.success('Evento criado com sucesso!');
             closeModal();
+            await fetchEvents();
         } catch (error) {
             console.error('Erro ao criar evento:', error);
             setError(error.message);
@@ -233,13 +237,10 @@ const Calendar = () => {
             formDataCopy.Birthdate = formData.displayBirthDate;
 
             console.log('Dados enviados para atualização:', formDataCopy);
-            const updatedEvent = await UpdateEventOnServer(formDataCopy._id, formDataCopy);
-            setEventsData((prev) =>
-                prev.map((evt) => (evt.extendedProps._id === updatedEvent._id ? { ...evt, ...updatedEvent } : evt))
-            );
-            console.log('Evento atualizado:', updatedEvent);
+            await UpdateEventOnServer(formDataCopy._id, formDataCopy);
             toast.success('Evento atualizado com sucesso!');
             closeModal();
+            await fetchEvents();
         } catch (error) {
             console.error('Erro ao atualizar evento:', error);
             setError(error.message);
