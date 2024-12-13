@@ -17,6 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import StatisticsModal from './StaticsContainer';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Calendar = () => {
     const calendarRef = useRef(null);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -45,7 +47,7 @@ const Calendar = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch('http://localhost:3000/consultas', {
+            const response = await fetch(`${API_URL}/consultas`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

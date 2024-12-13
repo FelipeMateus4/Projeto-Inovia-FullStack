@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AuthPage = () => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -20,7 +22,7 @@ const AuthPage = () => {
         try {
             console.log('Email:', email);
             console.log('Senha:', senha);
-            const response = await fetch('http://localhost:3000/auth/login', {
+            const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

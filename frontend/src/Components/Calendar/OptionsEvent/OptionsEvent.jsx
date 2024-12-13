@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function UpdateEventOnServer(_id, key_values) {
     try {
         if ('_id' in key_values) delete key_values._id;
@@ -11,7 +13,7 @@ export async function UpdateEventOnServer(_id, key_values) {
 
         console.log('Dados enviados para o servidor:', JSON.stringify(key_values));
 
-        const response = await fetch(`http://localhost:3000/consultas/${_id}`, {
+        const response = await fetch(`${API_URL}/consultas/${_id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -37,7 +39,7 @@ export async function UpdateEventOnServer(_id, key_values) {
 
 export async function DeleteEventOnServer(_id) {
     try {
-        const response = await fetch(`http://localhost:3000/consultas/${_id}`, {
+        const response = await fetch(`${API_URL}/consultas/${_id}`, {
             method: 'DELETE',
             credentials: 'include',
         });
@@ -61,7 +63,7 @@ export async function DeleteEventOnServer(_id) {
 
 export async function GetUserEventsFromServer() {
     try {
-        const response = await fetch(`http://localhost:3000/users`, {
+        const response = await fetch(`${API_URL}/users`, {
             method: 'GET',
             credentials: 'include',
         });

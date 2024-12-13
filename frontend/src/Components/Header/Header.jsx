@@ -16,7 +16,7 @@ const Navigation = () => {
 
     const toggleAuth = () => {
         if (!isAuth.isAuthenticated) {
-            fetch('http://localhost:3000/auth/logout', {
+            fetch('`${API_URL}/auth/logout', {
                 method: 'POST',
                 credentials: 'include',
             });

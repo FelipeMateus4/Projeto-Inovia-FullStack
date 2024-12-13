@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function createEventOnServer(formData) {
     try {
         const {
@@ -31,7 +33,7 @@ export async function createEventOnServer(formData) {
             body.recorrenceDays = Number(recorrenceDays);
         }
 
-        const response = await fetch('http://localhost:3000/consultas', {
+        const response = await fetch(`${API_URL}/consultas`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -41,8 +43,7 @@ export async function createEventOnServer(formData) {
         if (response.status === 409) {
             const errorResponse = await response.json();
             console.log('Erro:', errorResponse);
-            const errorMessage =
-                errorResponse.error.message || 'Existe alguma informação conflitante, por favor verifique os dados.';
+            const errorMessage = errorResponse.error.message || errorResponse.message || 'Conflito desconhecido.';
             throw new Error(errorMessage);
         }
         if (response.status === 400) {
